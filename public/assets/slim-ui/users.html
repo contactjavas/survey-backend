@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Users</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css">
+	<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+	<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/usefulteam/columns@1.0.0/dist/columns.min.css">
+	<link rel="stylesheet" href="assets/css/slim-ui.min.css">
+</head>
+
+<body spellcheck="false" class="use-sidebar">
+
+	<div id="app">
+		<div class="left-layout">
+			<div class="sidebar" data-simplebar>
+				<div class="logo-area">
+					<a href="" class="logo-link">
+						<img src="assets/images/sample-logo.png" alt="Logo" class="logo">
+					</a>
+				</div>
+
+				<nav class="sidenav">
+					<h3 class="sidemenu-title">MAIN</h3>
+					<ul class="sidemenu">
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-home"></i>
+								</span>
+								Survey
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="index.html">
+										Lihat Semua
+									</a>
+								</li>
+								<li>
+									<a href="edit-survey.html">
+										Tambah Baru
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="has-submenu is-active">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-user"></i>
+								</span>
+								User
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li class="is-active">
+									<a href="users.html">
+										Lihat Semua
+									</a>
+								</li>
+								<li>
+									<a href="edit-user.html">
+										Tambah Baru
+									</a>
+								</li>
+								<li>
+									<a href="edit-user.html">
+										Profil
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3 class="sidemenu-title">DAFTAR SURVEY</h3>
+
+					<ul class="sidemenu">
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-pen"></i>
+								</span>
+								Survey Pemilihan Bupati Kabupaten Sleman
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="">
+										Data Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Data Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Hasil Survey
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Surveyor
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-pen"></i>
+								</span>
+								Survey Pemilihan Bupati Pati
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="">
+										Data Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Data Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Hasil Survey
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Surveyor
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="sidemenu-title">PINTASAN</h3>
+					<ul class="sidemenu">
+						<li>
+							<a href="login.html">
+								<span class="icon">
+									<i class="fas fa-sign-out-alt"></i>
+								</span>
+								Logout
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="right-layout">
+			<div class="topbar">
+				<div class="toolbar">
+					<div class="left-toolbar">
+						&nbsp;
+					</div>
+					<div class="right-toolbar">
+						<div class="toolbar-item toolbar-avatar">
+							<img src="assets/images/sample-avatar.png" alt="avatar" class="avatar">
+							<span>
+								Hai Bagus
+							</span>
+						</div><!-- .toolbar-item -->
+					</div>
+				</div>
+			</div>
+			<div class="main-screen">
+				<div class="columns titlebar">
+					<div class="column w50 left-titlebar">
+						<h2 class="page-title">Users</h2>
+					</div>
+					<div class="column w50 right-titlebar">
+						<nav class="breadcrumb">
+							<ul>
+								<li class="is-active">
+									<span>Users</span>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div><!-- .titlebar -->
+
+				<div class="main-content">
+					<form name="tambah_jadwal_payroll" action="simpanJadwalPayroll" method="POST">
+						<div class="panel">
+							<header class="panel-header has-no-border">
+								<h3 class="panel-title">
+									Daftar User
+								</h3>
+							</header>
+							<div class="panel-content is-gapless">
+
+								<div class="table">
+									<header class="thead">
+										<div class="row">
+											<div class="col w35">
+												Nama
+											</div>
+											<div class="col w25">
+												Email
+											</div>
+											<div class="col w15">
+												Nomor Telepon
+											</div>
+											<div class="col w15">
+												Role
+											</div>
+											<div class="col w10">
+												&nbsp;
+											</div>
+										</div>
+									</header>
+									<div class="tbody">
+										<div class="row">
+											<div class="col w35">
+												Bagus Javas Heruyanto
+											</div>
+											<div class="col w25">
+												contactjavas@gmail.com
+											</div>
+											<div class="col w15">
+												082220358858
+											</div>
+											<div class="col w15">
+												Administrator
+											</div>
+											<div class="col w10">
+												<div class="buttons action-buttons">
+													<a href="edit-user.html" class="button is-small is-rounded">
+														<i class="far fa-edit"></i>
+													</a>
+													<a href="" class="button is-small is-rounded delete-button">
+														<i class="far fa-trash-alt"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col w35">
+												Budiman Bersahaja
+											</div>
+											<div class="col w25">
+												budiman.bersahaja@gmail.com
+											</div>
+											<div class="col w15">
+												082180807878
+											</div>
+											<div class="col w15">
+												Surveyor
+											</div>
+											<div class="col w10">
+												<div class="buttons action-buttons">
+													<a href="edit-user.html" class="button is-small is-rounded">
+														<i class="far fa-edit"></i>
+													</a>
+													<a href="" class="button is-small is-rounded delete-button">
+														<i class="far fa-trash-alt"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="tfoot">
+										&nbsp;
+									</footer>
+								</div>
+
+							</div>
+
+						</div>
+					</form>
+				</div><!-- .main-content -->
+			</div><!-- .main-screen -->
+		</div>
+
+		<footer class="page-footer">
+			<div class="container">
+				<ul class="footer-menu">
+					<li>
+						<a href="">Settings</a>
+					</li>
+					<li>
+						<a href="">Bantuan</a>
+					</li>
+				</ul>
+			</div><!-- .container -->
+		</footer><!-- .page-footer -->
+
+	</div><!-- #app -->
+
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+	<script src="https://unpkg.com/ag-grid-community@23.1.0/dist/ag-grid-community.min.noStyle.js"></script>
+	<script src="assets/js/slim-ui.min.js"></script>
+	<!-- <script src="assets/js/input-jadwal.min.js"></script> -->
+</body>
+
+</html>

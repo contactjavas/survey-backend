@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.edit-area {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+
+	.panel {
+		width: 100%;
+	}
+}
+
+.main-edit-area {
+	flex-grow: 1;
+	padding-right: 25px;
+}
+
+.side-edit-area {
+	width: 325px;
+}

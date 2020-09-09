@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+.notifications {
+	.notification:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.notification {
+	margin-bottom: 20px;
+	padding: 10px 20px;
+	border-radius: 4px;
+
+	&.is-success {
+		color: $color-white;
+		background-color: $color-green;
+
+		&.is-light {
+			color: $color-green-darker;
+			background-color: $color-green-white;
+		}
+
+		&.is-outline {
+			color: $color-green;
+			background-color: transparent;
+			border: 1px solid $color-green;
+		}
+	}
+	
+	&.is-error {
+		color: $color-white;
+		background-color: $color-red;
+
+		&.is-light {
+			color: $color-red;
+			background-color: $color-red-white;
+		}
+
+		&.is-outline {
+			color: $color-red;
+			background-color: transparent;
+			border: 1px solid $color-red;
+		}
+	}
+}

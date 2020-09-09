@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Edit Survey</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.css">
+	<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+	<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/usefulteam/columns@1.0.0/dist/columns.min.css">
+	<link rel="stylesheet" href="assets/css/slim-ui.min.css">
+</head>
+
+<body spellcheck="false" class="use-sidebar">
+
+	<div id="app">
+		<div class="left-layout">
+			<div class="sidebar" data-simplebar>
+				<div class="logo-area">
+					<a href="" class="logo-link">
+						<img src="assets/images/sample-logo.png" alt="Logo" class="logo">
+					</a>
+				</div>
+
+				<nav class="sidenav">
+					<h3 class="sidemenu-title">MAIN</h3>
+					<ul class="sidemenu">
+						<li class="has-submenu is-active">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-home"></i>
+								</span>
+								Survey
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="index.html">
+										Lihat Semua
+									</a>
+								</li>
+								<li>
+									<a href="edit-survey.html">
+										Tambah Baru
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-user"></i>
+								</span>
+								User
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="users.html">
+										Lihat Semua
+									</a>
+								</li>
+								<li>
+									<a href="edit-user.html">
+										Tambah Baru
+									</a>
+								</li>
+								<li>
+									<a href="edit-user.html">
+										Profil
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+					<h3 class="sidemenu-title">DAFTAR SURVEY</h3>
+
+					<ul class="sidemenu">
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-pen"></i>
+								</span>
+								Survey Pemilihan Bupati Kabupaten Sleman
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="">
+										Data Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Data Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Hasil Survey
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Surveyor
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li class="has-submenu">
+							<a href="">
+								<span class="icon">
+									<i class="fas fa-pen"></i>
+								</span>
+								Survey Pemilihan Bupati Pati
+								<span class="arrow">
+									<i class="fas fa-angle-down"></i>
+								</span>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="">
+										Data Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Calon
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Data Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Tambah Responden
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Hasil Survey
+									</a>
+								</li>
+								<li>
+									<a href="">
+										Surveyor
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<h3 class="sidemenu-title">PINTASAN</h3>
+					<ul class="sidemenu">
+						<li>
+							<a href="login.html">
+								<span class="icon">
+									<i class="fas fa-sign-out-alt"></i>
+								</span>
+								Logout
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="right-layout">
+			<div class="topbar">
+				<div class="action-bar">
+					<div class="left-action-bar">
+						<h3>Edit Survey</h3>
+						<nav class="breadcrumb">
+							<ul>
+								<li>
+									<a href="index.html">Survey</a>
+								</li>
+								<li class="is-active">
+									<span>Edit</span>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="right-action-bar">
+						<button class="button is-secondary">Update</button>
+					</div>
+				</div>
+			</div>
+			<div class="main-screen">
+				<div class="main-content">
+					<form name="tambah_jadwal_payroll" action="simpanJadwalPayroll" method="POST">
+						<div class="notification is-success is-light">
+							Data survey berhasil ditambahkan
+						</div>
+						<div class="notification is-error is-light">
+							Data survey berhasil ditambahkan
+						</div>
+						<div class="panel material">
+							<header class="panel-header">
+								<h3 class="panel-title">
+									Detail Survey
+								</h3>
+							</header>
+							<div class="panel-content is-slim is-light">
+
+								<div class="field">
+									<div class="control">
+										<input type="text" id="judul_survey" name="judul_survey" class="input"
+											placeholder="Judul Survey" autocomplete="off" required>
+										<hr>
+										<label for="judul_survey">Judul Survey</label>
+									</div>
+								</div>
+
+							</div><!-- .panel-content -->
+
+							<div class="panel-content">
+
+								<div class="field">
+									<label for="rincian_tampil" class="label">
+										Status Survey
+									</label>
+									<label for="rincian_tampil" class="label checkbox-label">
+										Aktif
+										<input type="checkbox" name="rincian_tampil" id="rincian_tampil" value="1" class="checkbox" checked>
+										<div class="indicator"></div>
+									</label>
+								</div>
+
+								<div class="field w25">
+									<div class="control">
+										<input type="number" id="target_responden" name="target_responden" class="input"
+											placeholder="Target Responden" required>
+										<hr>
+										<label for="target_responden">Target Responden</label>
+									</div>
+								</div>
+
+								<div class="fields has-2">
+									<div class="field">
+										<div class="control">
+											<input type="text" name="tanggal_mulai" id="tanggal_mulai"
+												class="input use-datepicker" placeholder="Tanggal Mulai" value=""
+												autocomplete="off" required>
+											<hr>
+											<label for="tanggal_mulai">Tanggal Mulai</label>
+										</div>
+									</div>
+
+									<div class="field">
+										<div class="control">
+											<input type="text" name="tanggal_selesai" id="tanggal_selesai"
+												class="input use-datepicker" placeholder="Tanggal Selesai" value=""
+												autocomplete="off" required>
+											<hr>
+											<label for="tanggal_selesai">Tanggal Selesai</label>
+										</div>
+									</div>
+								</div>
+
+							</div><!-- .panel-content -->
+
+						</div><!-- .panel -->
+					</form>
+				</div><!-- .main-content -->
+			</div><!-- .main-screen -->
+		</div>
+
+		<footer class="page-footer">
+			<div class="container">
+				<ul class="footer-menu">
+					<li>
+						<a href="">Settings</a>
+					</li>
+					<li>
+						<a href="">Bantuan</a>
+					</li>
+				</ul>
+			</div><!-- .container -->
+		</footer><!-- .page-footer -->
+
+	</div><!-- #app -->
+
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.3/dist/flatpickr.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
+	<script src="https://unpkg.com/ag-grid-community@23.1.0/dist/ag-grid-community.min.noStyle.js"></script>
+	<script src="assets/js/slim-ui.min.js"></script>
+	<!-- <script src="assets/js/input-jadwal.min.js"></script> -->
+</body>
+
+</html>
