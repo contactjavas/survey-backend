@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="Slim coding standard">
+    <description>Slim coding standard</description>
+
+    <!-- inherit rules from: -->
+    <rule ref="PSR12"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
+        <properties>
+            <property name="maxPadding" value="10"/>
+            <property name="exact" value="false" phpcs-only="true"/>
+        </properties>
+    </rule>
+
+    <!-- This WordPress rule is just beautiful :) -->
+    <rule ref="WordPress.Arrays.MultipleStatementAlignment">
+        <properties>
+            <property name="maxColumn" value="60"/>
+            <property name="alignMultilineItems" value="!=100"/>
+            <property name="exact" value="false" phpcs-only="true"/>
+        </properties>
+    </rule>
+
+    <!-- Paths to check -->
+    <file>public</file>
+    <file>src</file>
+</ruleset>

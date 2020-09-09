@@ -1,0 +1,35 @@
+{
+    "name": "bagus/survey-bupati",
+    "description": "Backend for survey-bupati app",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bagus",
+            "email": "25834188+contactjavas@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.1",
+        "php-di/slim-bridge": "^3.0",
+        "monolog/monolog": "^2.1",
+        "vlucas/phpdotenv": "^5.1",
+        "davidepastore/slim-validation": "^0.5.1",
+        "slim/php-view": "^3.0",
+        "laminas/laminas-escaper": "^2.6",
+        "cocur/slugify": "^4.0",
+        "mailjet/mailjet-apiv3-php": "^1.4",
+        "tuupola/slim-jwt-auth": "^3.4",
+        "illuminate/database": "^7.23"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Api\\": "src/api/",
+            "App\\Front\\": "src/front/",
+            "App\\Manage\\": "src/manage/",
+            "App\\Shared\\": "src/shared/"
+        }
+    }
+}
