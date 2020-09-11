@@ -26,7 +26,9 @@ class AuthController extends BaseController
         }
 
         $fields = $request->getParsedBody();
-        $user   = User::where('email', $fields['email'])->first();
+        $user   = User::where('email', $fields['email'])
+        ->select('id', 'email', 'password', 'first_name as firstName', 'last_name as lastName', 'phone')
+        ->first();
 
         // Check if email doesn't exist.
         if (!is_object($user) || empty($user)) {
@@ -47,7 +49,8 @@ class AuthController extends BaseController
         }
 
         unset($user->password);
-
+        unset($user->roles);
+        unset($user['roles']);
         $this->user()->setCurrent($user);
 
         $token = $this->token()->generate(
@@ -56,16 +59,6 @@ class AuthController extends BaseController
             'mode'    => 'insert'
             ]
         );
-
-        // Remove un-necessary data.
-        unset($user->username);
-        unset($user->address);
-        unset($user->map);
-        unset($user->avatar);
-        unset($user->created_at);
-        unset($user->updated_at);
-        unset($user->deleted_at);
-        unset($user->roles);
 
         $payload = json_encode([
             'success' => true,

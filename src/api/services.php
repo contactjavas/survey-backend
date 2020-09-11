@@ -6,6 +6,7 @@ use Psr\Container\ContainerInterface;
 use App\Api\Controllers\Select2Controller;
 use App\Api\Controllers\AutocompleteController;
 use App\Api\Controllers\AuthController;
+use App\Api\Controllers\SurveyController;
 
 return function (ContainerInterface $container, array $settings) {
     $container->set('Select2Controller', function () use ($container, $settings) {
@@ -21,5 +22,10 @@ return function (ContainerInterface $container, array $settings) {
     $container->set('AuthController', function () use ($container, $settings) {
         $db = $container->get('db');
         return new AuthController($container, $db);
+    });
+
+    $container->set('SurveyController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new SurveyController($container, $db);
     });
 };

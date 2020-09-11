@@ -25,6 +25,17 @@ return function (App $app) {
         $group->get('/search/{query}[/]', 'AutocompleteController:getSurveyorsBySearch');
     });
 
+    $app->group('/api/surveys', function (Group $group) {
+        $group->get('[/]', 'SurveyController:list');
+        $group->get('/add[/]', 'SurveyController:addPage');
+        $group->post('/add[/]', 'SurveyController:add');
+        $group->get('/edit/{survey_id}[/]', 'SurveyController:editPage');
+        $group->get('/edit/{survey_id}/{saving_status}[/]', 'SurveyController:editPage');
+        $group->post('/edit[/]', 'SurveyController:edit');
+        $group->get('/delete/{survey_id}[/]', 'SurveyController:delete');
+        $group->get('/profile/edit[/]', 'UserController:editPage');
+    });
+
     $app->group('/api', function (Group $group) {
         $group->post('/login[/]', 'AuthController:login');
     });
