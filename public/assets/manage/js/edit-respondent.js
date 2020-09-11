@@ -25,7 +25,7 @@
 
   function fetchRegencies(provinceId) {
     const ajax = new XMLHttpRequest();
-    let ajaxUrl = baseUrl + "/api/wilayah/province/" + provinceId + "/regencies/";
+    let ajaxUrl = baseUrl + "/api/select2/province/" + provinceId + "/regencies/";
 
     ajax.open("GET", ajaxUrl, true);
     ajax.send();
@@ -39,7 +39,7 @@
 
   function fetchDistricts(regencyId) {
     const ajax = new XMLHttpRequest();
-    let ajaxUrl = baseUrl + "/api/wilayah/regency/" + regencyId + "/districts/";
+    let ajaxUrl = baseUrl + "/api/select2/regency/" + regencyId + "/districts/";
 
     ajax.open("GET", ajaxUrl, true);
     ajax.send();
@@ -53,7 +53,7 @@
 
   function fetchVillages(districtId) {
     const ajax = new XMLHttpRequest();
-    let ajaxUrl = baseUrl + "/api/wilayah/district/" + districtId + "/villages/";
+    let ajaxUrl = baseUrl + "/api/select2/district/" + districtId + "/villages/";
 
     ajax.open("GET", ajaxUrl, true);
     ajax.send();

@@ -15,15 +15,11 @@ return function (App $app, ContainerInterface $container, array $settings) {
                 'path'   => ['/api'],
                 'ignore' => [
                     // Open route for auths
-                    '/api/login/google',
-                    '/api/login/facebook',
                     '/api/login',
-                    '/api/forget-password',
-                    '/api/reset-password',
-                    '/api/register',
 
-                    // Open route for "wilayah" api
-                    '/api/wilayah/*',
+                    // Open route for select2 & autocomplete
+                    '/api/select2/*',
+                    '/api/autocomplete/*',
 
                     // open route for other routes
                     '/api/blank',

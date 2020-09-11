@@ -8,11 +8,11 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use Slim\App;
 
 return function (App $app) {
-    $app->group('/api/wilayah', function (Group $group) {
-        $group->get('[/]', 'WilayahController:getAllProvinces');
-        $group->get('/province/{province_id}/regencies[/]', 'WilayahController:getRegenciesByProvinceId');
-        $group->get('/regency/{regency_id}/districts[/]', 'WilayahController:getDistrictsByRegencyId');
-        $group->get('/district/{district_id}/villages[/]', 'WilayahController:getVillagesByDistrictId');
+    $app->group('/api/select2', function (Group $group) {
+        $group->get('[/]', 'Select2Controller:getAllProvinces');
+        $group->get('/province/{province_id}/regencies[/]', 'Select2Controller:getRegenciesByProvinceId');
+        $group->get('/regency/{regency_id}/districts[/]', 'Select2Controller:getDistrictsByRegencyId');
+        $group->get('/district/{district_id}/villages[/]', 'Select2Controller:getVillagesByDistrictId');
     });
 
     $app->group('/api/autocomplete/respondent', function (Group $group) {
@@ -23,5 +23,9 @@ return function (App $app) {
     $app->group('/api/autocomplete/surveyor', function (Group $group) {
         $group->get('[/]', 'AutocompleteController:getAllSurveyors');
         $group->get('/search/{query}[/]', 'AutocompleteController:getSurveyorsBySearch');
+    });
+
+    $app->group('/api', function (Group $group) {
+        $group->post('/login[/]', 'AuthController:login');
     });
 };

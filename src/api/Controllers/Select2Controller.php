@@ -12,7 +12,7 @@ use App\Shared\Models\Regency;
 use App\Shared\Models\District;
 use App\Shared\Models\Village;
 
-class WilayahController extends BaseController
+class Select2Controller extends BaseController
 {
     public function getAllProvinces(Request $request, Response $response, array $args)
     {

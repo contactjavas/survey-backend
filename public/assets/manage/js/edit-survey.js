@@ -13,7 +13,7 @@
 
   function fetchRegencies(provinceId) {
     const ajax = new XMLHttpRequest();
-    let ajaxUrl = baseUrl + "/api/wilayah/province/" + provinceId + "/regencies/";
+    let ajaxUrl = baseUrl + "/api/select2/province/" + provinceId + "/regencies/";
 
     ajax.open("GET", ajaxUrl, true);
     ajax.send();
