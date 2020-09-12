@@ -17,8 +17,7 @@ class SurveyController extends BaseController
 
         // General validations.
         if ($request->getAttribute('has_errors')) {
-            $errorResponse = $this->response()->generateError($request);
-            $errorResponse = json_encode($errorResponse);
+            $errorResponse = $this->response()->generateJsonError($request);
 
             $response->getBody()->write($errorResponse);
             return $response->withHeader('Content-Type', 'application/json');
@@ -28,8 +27,7 @@ class SurveyController extends BaseController
 
         // Check token
         if (!$token) {
-            $errorResponse = $this->response()->generateError('general', 'Invalid token');
-            $errorResponse = json_encode($errorResponse);
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
 
             $response->getBody()->write($errorResponse);
             return $response->withHeader('Content-Type', 'application/json');
@@ -47,8 +45,7 @@ class SurveyController extends BaseController
 
         $response->getBody()->write($payload);
 
-        return $response
-        ->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json');
     }
     
     public function addPage(Request $request, Response $response, array $args)

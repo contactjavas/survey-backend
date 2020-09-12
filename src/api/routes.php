@@ -36,6 +36,16 @@ return function (App $app) {
         $group->get('/profile/edit[/]', 'UserController:editPage');
     });
 
+    $app->group('/api/respondents', function (Group $group) {
+        $group->get('[/]', 'RespondentController:list');
+        $group->get('/add[/]', 'RespondentController:addPage');
+        $group->post('/add[/]', 'RespondentController:add');
+        $group->get('/edit/{respondent_id}[/]', 'RespondentController:editPage');
+        $group->get('/edit/{respondent_id}/{saving_status}[/]', 'RespondentController:editPage');
+        $group->post('/edit/{respondent_id}[/]', 'RespondentController:edit');
+        $group->get('/delete/{respondent_id}[/]', 'RespondentController:delete');
+    });
+
     $app->group('/api', function (Group $group) {
         $group->post('/login[/]', 'AuthController:login');
     });

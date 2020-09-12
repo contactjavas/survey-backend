@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ResponseHelper extends BaseHelper
 {
-    public function generateError(string $field = '', string $msg = '')
+    public function generateError($field, string $msg = '')
     {
         if ($field && $msg) {
             return [
@@ -32,5 +32,10 @@ class ResponseHelper extends BaseHelper
         }
 
         return [];
+    }
+
+    public function generateJsonError($field, string $msg = '')
+    {
+        return json_encode($this->generateError($field, $msg));
     }
 }
