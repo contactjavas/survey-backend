@@ -7,6 +7,9 @@ use App\Api\Controllers\Select2Controller;
 use App\Api\Controllers\AutocompleteController;
 use App\Api\Controllers\AuthController;
 use App\Api\Controllers\SurveyController;
+use App\Api\Controllers\VoteController;
+use App\Api\Controllers\QuestionController;
+use App\Api\Controllers\QuestionChoiceController;
 use App\Api\Controllers\RespondentController;
 
 return function (ContainerInterface $container, array $settings) {
@@ -28,6 +31,21 @@ return function (ContainerInterface $container, array $settings) {
     $container->set('SurveyController', function () use ($container, $settings) {
         $db = $container->get('db');
         return new SurveyController($container, $db);
+    });
+
+    $container->set('VoteController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new VoteController($container, $db);
+    });
+
+    $container->set('QuestionController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new QuestionController($container, $db);
+    });
+
+    $container->set('QuestionChoiceController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new QuestionChoiceController($container, $db);
     });
 
     $container->set('RespondentController', function () use ($container, $settings) {

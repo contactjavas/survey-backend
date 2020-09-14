@@ -36,6 +36,30 @@ return function (App $app) {
         $group->get('/profile/edit[/]', 'UserController:editPage');
     });
 
+    $app->group('/api/survey/{survey_id}/questions', function (Group $group) {
+        $group->get('[/]', 'QuestionController:list');
+        $group->get('/add[/]', 'QuestionController:addPage');
+        $group->post('/add[/]', 'QuestionController:add');
+        $group->get('/edit/{question_id}[/]', 'QuestionController:editPage');
+        $group->get('/edit/{question_id}/{saving_status}[/]', 'QuestionController:editPage');
+        $group->post('/edit/{question_id}[/]', 'QuestionController:edit');
+        $group->get('/delete/{question_id}[/]', 'QuestionController:delete');
+    });
+
+    $app->group('/api/survey/{survey_id}/votes', function (Group $group) {
+        $group->get('[/]', 'VoteController:listPage');
+        $group->get('/add[/]', 'VoteController:addPage');
+        $group->post('/add[/]', 'VoteController:add');
+        $group->get('/edit/{vote_id}[/]', 'VoteController:editPage');
+        $group->get('/edit/{vote_id}/{saving_status}[/]', 'VoteController:editPage');
+        $group->post('/edit/{vote_id}[/]', 'VoteController:edit');
+        $group->get('/delete/{vote_id}[/]', 'VoteController:delete');
+    });
+
+    $app->group('/api/question/{question_id}/choices', function (Group $group) {
+        $group->get('[/]', 'QuestionChoiceController:list');
+    });
+
     $app->group('/api/respondents', function (Group $group) {
         $group->get('[/]', 'RespondentController:list');
         $group->get('/add[/]', 'RespondentController:addPage');
