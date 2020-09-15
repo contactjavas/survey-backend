@@ -57,6 +57,36 @@ class RespondentController extends BaseController
 
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function search(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        $query  = $args['query'];
+        $format = $args['data_format'];
+        $column = is_numeric($query) ? 'nik' : 'name';
+
+        if ($format === 'simple') {
+            $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
+            ->select('id', 'name', 'nik')
+            ->get();
+        } else {
+            $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
+            ->select('id', 'name', 'gender_id', 'age', 'job', 'phone', 'nik')
+            ->get();
+        }
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Berhasil mengambil daftar responden',
+            'data'    => $respondents
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response
+        ->withHeader('Content-Type', 'application/json');
+    }
     
     public function addPage(Request $request, Response $response, array $args)
     {

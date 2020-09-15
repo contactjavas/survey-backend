@@ -19,7 +19,7 @@ return function (App $app, ContainerInterface $container, array $settings) {
 
                     // Open route for select2 & autocomplete
                     '/api/select2/*',
-                    '/api/autocomplete/*',
+                    '/api/awesomplete/*',
 
                     // open route for other routes
                     '/api/blank',

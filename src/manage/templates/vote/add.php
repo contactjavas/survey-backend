@@ -120,7 +120,7 @@ use App\Shared\Models\QuestionChoice;
                                     <div class="control">
                                         <input type="text" name="respondent_search" id="respondent_search" value=""
                                         class="input use-autocomplete is-filled" placeholder="Nama / NIK Responden" autocomplete="off"
-                                        data-ajax-url="<?=$baseUrl?>/api/autocomplete/respondent/search/{query}/"
+                                        data-ajax-url="<?=$baseUrl?>/api/awesomplete/respondent/search/{query}/"
                                         data-use-array-of="object" data-store-value-to="respondent_id" data-minchars="1">
                                         <hr>
                                         <label for="respondent_search">Nama / NIK Responden</label>
@@ -132,7 +132,7 @@ use App\Shared\Models\QuestionChoice;
                                     <div class="control">
                                         <input type="text" name="surveyor_search" id="surveyor_search" value=""
                                         class="input use-autocomplete is-filled" placeholder="Nama Surveyor" autocomplete="off"
-                                        data-ajax-url="<?=$baseUrl?>/api/autocomplete/surveyor/search/{query}/"
+                                        data-ajax-url="<?=$baseUrl?>/api/awesomplete/surveyor/search/{query}/"
                                         data-use-array-of="object" data-store-value-to="user_id" data-minchars="1">
                                         <hr>
                                         <label for="surveyor_search">Nama Surveyor</label>

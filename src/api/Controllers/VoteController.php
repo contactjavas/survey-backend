@@ -199,9 +199,6 @@ class VoteController extends BaseController
         $data['survey_id'] = $surveyId;
         $data['user_id']   = $this->user()->getId();
 
-        // ! For dummy purpose
-        $data['respondent_id'] = 2;
-
         $voteId = Vote::insertGetId($data);
 
         foreach ($questions as $question) {

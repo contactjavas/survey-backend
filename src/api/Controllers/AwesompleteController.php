@@ -10,7 +10,7 @@ use App\Shared\Models\User;
 use App\Shared\Models\UserRoleRelationship;
 use App\Shared\Models\Respondent;
 
-class AutocompleteController extends BaseController
+class AwesompleteController extends BaseController
 {
     public function getAllRespondents(Request $request, Response $response, array $args)
     {

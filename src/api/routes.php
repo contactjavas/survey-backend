@@ -15,14 +15,14 @@ return function (App $app) {
         $group->get('/district/{district_id}/villages[/]', 'Select2Controller:getVillagesByDistrictId');
     });
 
-    $app->group('/api/autocomplete/respondent', function (Group $group) {
-        $group->get('[/]', 'AutocompleteController:getAllRespondents');
-        $group->get('/search/{query}[/]', 'AutocompleteController:getRespondentsBySearch');
+    $app->group('/api/awesomplete/respondent', function (Group $group) {
+        $group->get('[/]', 'AwesompleteController:getAllRespondents');
+        $group->get('/search/{query}[/]', 'AwesompleteController:getRespondentsBySearch');
     });
 
-    $app->group('/api/autocomplete/surveyor', function (Group $group) {
-        $group->get('[/]', 'AutocompleteController:getAllSurveyors');
-        $group->get('/search/{query}[/]', 'AutocompleteController:getSurveyorsBySearch');
+    $app->group('/api/awesomplete/surveyor', function (Group $group) {
+        $group->get('[/]', 'AwesompleteController:getAllSurveyors');
+        $group->get('/search/{query}[/]', 'AwesompleteController:getSurveyorsBySearch');
     });
 
     $app->group('/api/surveys', function (Group $group) {
@@ -36,14 +36,16 @@ return function (App $app) {
         $group->get('/profile/edit[/]', 'UserController:editPage');
     });
 
-    $app->group('/api/survey/{survey_id}/questions', function (Group $group) {
-        $group->get('[/]', 'QuestionController:list');
-        $group->get('/add[/]', 'QuestionController:addPage');
-        $group->post('/add[/]', 'QuestionController:add');
-        $group->get('/edit/{question_id}[/]', 'QuestionController:editPage');
-        $group->get('/edit/{question_id}/{saving_status}[/]', 'QuestionController:editPage');
-        $group->post('/edit/{question_id}[/]', 'QuestionController:edit');
-        $group->get('/delete/{question_id}[/]', 'QuestionController:delete');
+    $app->group('/api/survey/{survey_id}', function (Group $group) {
+        $group->get('/questions-choices[/]', 'QuestionController:withChoices');
+
+        $group->get('/questions[/]', 'QuestionController:list');
+        $group->get('/questions/add[/]', 'QuestionController:addPage');
+        $group->post('/questions/add[/]', 'QuestionController:add');
+        $group->get('/questions/edit/{question_id}[/]', 'QuestionController:editPage');
+        $group->get('/questions/edit/{question_id}/{saving_status}[/]', 'QuestionController:editPage');
+        $group->post('/questions/edit/{question_id}[/]', 'QuestionController:edit');
+        $group->get('/questions/delete/{question_id}[/]', 'QuestionController:delete');
     });
 
     $app->group('/api/survey/{survey_id}/votes', function (Group $group) {
@@ -68,6 +70,7 @@ return function (App $app) {
         $group->get('/edit/{respondent_id}/{saving_status}[/]', 'RespondentController:editPage');
         $group->post('/edit/{respondent_id}[/]', 'RespondentController:edit');
         $group->get('/delete/{respondent_id}[/]', 'RespondentController:delete');
+        $group->get('/search/{data_format}/{query}[/]', 'RespondentController:search');
     });
 
     $app->group('/api', function (Group $group) {

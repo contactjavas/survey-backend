@@ -52,6 +52,53 @@ class QuestionController extends BaseController
         return $response->withHeader('Content-Type', 'application/json');
     }
     
+    public function withChoices(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $surveyId  = (int) $args['survey_id'];
+        $questions = Question::where('survey_id', $surveyId)
+        ->select('id', 'title', 'question_type_id', 'allow_add as allowAdd')
+        ->get();
+
+        $questions->makeHidden(['survey_id']);
+
+        $questions->each(function ($question) {
+            $choices = QuestionChoice::where('question_id', $question->id)->get();
+            $choices->makeHidden(['question_id']);
+
+            $question->choices = $choices;
+        });
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil diambil',
+            'data'    => $questions
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
     public function addPage(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);
