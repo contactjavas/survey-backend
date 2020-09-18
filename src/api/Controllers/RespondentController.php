@@ -377,19 +377,38 @@ class RespondentController extends BaseController
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
         
         $respondent = Respondent::find($args['respondent_id']);
 
         $respondent->forceDelete();
 
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data responden telah dihapus',
+            'data'    => [],
+        ]);
+
+        $response->getBody()->write($payload);
+
         return $response
-        ->withHeader('Location', '/manage/respondents/')
-        ->withStatus(302);
+        ->withHeader('Content-Type', 'application/json');
     }
 
     public function nikAlreadyRegistered($nik)

@@ -70,7 +70,7 @@ return function (App $app) {
         $group->get('/edit/{respondent_id}[/]', 'RespondentController:editPage');
         $group->get('/edit/{respondent_id}/{saving_status}[/]', 'RespondentController:editPage');
         $group->post('/edit/{respondent_id}[/]', 'RespondentController:edit');
-        $group->get('/delete/{respondent_id}[/]', 'RespondentController:delete');
+        $group->delete('/{respondent_id}[/]', 'RespondentController:delete');
         $group->get('/search/{data_format}/{query}[/]', 'RespondentController:search');
     });
 
