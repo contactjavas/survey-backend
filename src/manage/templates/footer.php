@@ -26,7 +26,7 @@ declare(strict_types=1);
     <script src="https://cdn.jsdelivr.net/npm/awesomplete@1.1.5/awesomplete.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
     <script src="https://unpkg.com/ag-grid-community@23.1.0/dist/ag-grid-community.min.noStyle.js"></script>
-    <script src="/public/assets/slim-ui/assets/js/image-browser.js"></script>
+    <script src="/public/assets/manage/js/image-browser.js"></script>
 
     <?php if (isset($js) && isset($js['libs'])) : ?>
         <?php foreach ($js['libs'] as $url) : ?>

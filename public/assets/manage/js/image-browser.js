@@ -19,7 +19,7 @@ var ImageBrowser = (function($) {
 		if (!elms.length) return;
 
 		elms.forEach(function(el) {
-			el.addEventListener("click", openModal);
+			el.addEventListener("focus", openModal);
 		});
 	}
 

@@ -103,12 +103,6 @@ require __DIR__ . '/../header.php';
                                         </div>
                                         <div class="col w20">
                                             <?=escHtml($respondent->address)?>
-                                            ,
-                                            RT <?=escHtml($respondent->rt)?>,
-                                            RW <?=escHtml($respondent->rw)?>
-                                            ,
-                                            <?=escHtml($respondent->village)?>,
-                                            <?=escHtml($respondent->district)?>
                                         </div>
                                         <div class="col w10">
                                             <div class="buttons action-buttons">

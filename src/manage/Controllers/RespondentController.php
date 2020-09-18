@@ -10,10 +10,6 @@ use App\Shared\Models\Respondent;
 use App\Shared\Models\Gender;
 use App\Shared\Models\Religion;
 use App\Shared\Models\Education;
-use App\Shared\Models\Province;
-use App\Shared\Models\Regency;
-use App\Shared\Models\District;
-use App\Shared\Models\Village;
 
 class RespondentController extends BaseController
 {
@@ -47,19 +43,10 @@ class RespondentController extends BaseController
             ->withStatus(302);
         }
 
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $provinces[0]->id)->get();
-        $districts = District::where('regency_id', '=', $regencies[0]->id)->get();
-        $villages  = Village::where('district_id', '=', $districts[0]->id)->get();
-
         $data = [
             'genders'       => Gender::all(),
             'educations'    => Education::all(),
             'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
             'activeMenu'    => '/manage/respondents/',
             'activeSubmenu' => '/manage/respondents/add/',
             'js'            => [
@@ -85,19 +72,11 @@ class RespondentController extends BaseController
 
         $respondentId = $args['respondent_id'];
         $respondent   = Respondent::find($respondentId);
-        $provinces    = Province::all();
-        $regencies    = Regency::where('province_id', '=', $respondent->province_id)->get();
-        $districts    = District::where('regency_id', '=', $respondent->regency_id)->get();
-        $villages     = Village::where('district_id', '=', $respondent->district_id)->get();
 
         $data = [
             'genders'       => Gender::all(),
             'educations'    => Education::all(),
             'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
             'respondent'    => $respondent,
             'activeMenu'    => '/manage/respondents/',
             'activeSubmenu' => '/manage/respondents/edit/',
@@ -131,21 +110,12 @@ class RespondentController extends BaseController
         }
 
         $fields = $request->getParsedBody();
-            
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $fields['province_id'])->get();
-        $districts = District::where('regency_id', '=', $fields['regency_id'])->get();
-        $villages  = Village::where('district_id', '=', $fields['district_id'])->get();
         
         $addPagedata = [
             'fields'        => $fields,
             'genders'       => Gender::all(),
             'educations'    => Education::all(),
             'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
             'activeMenu'    => '/manage/respondents/',
             'activeSubmenu' => '/manage/respondents/add/',
             'js'            => [
@@ -175,8 +145,7 @@ class RespondentController extends BaseController
         }
         
         $insertFields = [
-            'name', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk',
-            'province_id', 'regency_id', 'district_id', 'village_id', 'rw', 'rt', 'address'
+            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
         ];
 
         $data = [];
@@ -207,20 +176,11 @@ class RespondentController extends BaseController
         $fields       = $request->getParsedBody();
         $respondentId = (int) $fields['id'];
         $respondent   = Respondent::find($respondentId);
-
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $respondent->province_id)->get();
-        $districts = District::where('regency_id', '=', $respondent->regency_id)->get();
-        $villages  = Village::where('district_id', '=', $respondent->district_id)->get();
         
         $editPageData = [
             'genders'       => Gender::all(),
             'educations'    => Education::all(),
             'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
             'respondent'    => $respondent,
             'activeMenu'    => '/manage/respondents/',
             'activeSubmenu' => '/manage/respondents/edit/',
@@ -233,8 +193,7 @@ class RespondentController extends BaseController
         ];
 
         $updateFields = [
-            'name', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk',
-            'province_id', 'regency_id', 'district_id', 'village_id', 'rw', 'rt', 'address'
+            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
         ];
         
         foreach ($updateFields as $field) {

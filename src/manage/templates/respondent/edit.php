@@ -152,19 +152,6 @@
                                     </div>
                                 </div>
 
-                            </div><!-- .panel-content -->
-
-                        </div><!-- .panel -->
-                    </div>
-                    <div class="side-edit-area">
-                        <div class="panel">
-                            <header class="panel-header">
-                                <h3 class="panel-title">
-                                    Alamat Responden
-                                </h3>
-                            </header>
-
-                            <div class="panel-content">
                                 <div class="material field">
                                     <div class="control">
                                         <textarea name="address" id="address" class="input textarea" placeholder="Alamat Lengkap" autocomplete="off" required><?=(isset($respondent->address) ? $respondent->address : '')?></textarea>
@@ -173,81 +160,34 @@
                                     </div>
                                 </div>
 
-                                <div class="material fields has-2">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="text" name="rt" id="rt"
-                                                class="input" placeholder="RT" value="<?=(isset($respondent->rt) ? $respondent->rt : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="rt">RT</label>
-                                        </div>
-                                    </div>
+                            </div><!-- .panel-content -->
 
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="text" name="rw" id="rw"
-                                                class="input" placeholder="RW" value="<?=(isset($respondent->rw) ? $respondent->rw : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="rw">RW</label>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div><!-- .panel -->
+                    </div>
+                    <div class="side-edit-area">
+                        <div class="panel">
+                            <header class="panel-header">
+                                <h3 class="panel-title">
+                                    Foto Responden
+                                </h3>
+                            </header>
 
+                            <div class="panel-content">
                                 <div class="material field">
-                                    <label class="label select2-label" for="province_id">Provinsi</label>
                                     <div class="control">
-                                        <select name="province_id" id="province_id" class="input select is-filled" required="">
-                                            <?php foreach ($provinces as $province) : ?>
-                                                <option value="<?=escHtmlAttr($province->id)?>" <?=($province->id == $respondent->province_id ? 'selected' : '')?>>
-                                                    <?=escHtml($province->name)?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <input
+                                            type="text"
+                                            class="input use-image-browser"
+                                            name="photo"
+                                            id="image-browser"
+                                            placeholder="Upload foto responden"
+                                            value="<?=(isset($respondent->photo) ? $respondent->photo : '')?>"
+                                        >
+                                        <hr>
+                                        <label for="address">Upload foto responden</label>
                                     </div>
                                 </div>
-
-                                <div class="material field">
-                                    <label class="label select2-label" for="regency_id">Kabupaten</label>
-                                    <div class="control">
-                                        <select name="regency_id" id="regency_id" class="input select is-filled" required="">
-                                            <?php foreach ($regencies as $regency) : ?>
-                                                <option value="<?=escHtmlAttr($regency->id)?>" <?=($regency->id == $respondent->regency_id ? 'selected' : '')?>>
-                                                    <?=escHtml($regency->name)?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="material field">
-                                    <label class="label select2-label" for="district_id">Kecamatan</label>
-                                    <div class="control">
-                                        <select name="district_id" id="district_id" class="input select is-filled" required="">
-                                            <?php foreach ($districts as $district) : ?>
-                                                <option value="<?=escHtmlAttr($district->id)?>" <?=($district->id == $respondent->district_id ? 'selected' : '')?>>
-                                                    <?=escHtml($district->name)?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="material field">
-                                    <label class="label select2-label" for="village_id">Desa / Kelurahan</label>
-                                    <div class="control">
-                                        <select name="village_id" id="village_id" class="input select is-filled" required="">
-                                            <?php foreach ($villages as $village) : ?>
-                                                <option value="<?=escHtmlAttr($village->id)?>" <?=($village->id == $respondent->village_id ? 'selected' : '')?>>
-                                                    <?=escHtml($village->name)?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
+                            </div><!-- .panel-content -->
                         </div>
                     </div>
                 </div><!-- .edit-area -->

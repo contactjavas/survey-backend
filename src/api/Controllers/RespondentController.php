@@ -92,36 +92,39 @@ class RespondentController extends BaseController
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
 
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $provinces[0]->id)->get();
-        $districts = District::where('regency_id', '=', $regencies[0]->id)->get();
-        $villages  = Village::where('district_id', '=', $districts[0]->id)->get();
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
 
         $data = [
-            'genders'       => Gender::all(),
-            'educations'    => Education::all(),
-            'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
-            'activeMenu'    => '/manage/respondents/',
-            'activeSubmenu' => '/manage/respondents/add/',
-            'js'            => [
-                'scripts' => [
-                    '/public/assets/manage/js/edit-screen.js',
-                    '/public/assets/manage/js/edit-respondent.js',
-                ]
-            ],
+            'genders'    => Gender::all(),
+            'educations' => Education::all(),
+            'religions'  => Religion::all(),
         ];
 
-        return $this->view->render($response, "/respondent/add.php", $data);
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil diambil',
+            'data'    => $data
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     public function editPage(Request $request, Response $response, array $args)
@@ -136,19 +139,11 @@ class RespondentController extends BaseController
 
         $respondentId = $args['respondent_id'];
         $respondent   = Respondent::find($respondentId);
-        $provinces    = Province::all();
-        $regencies    = Regency::where('province_id', '=', $respondent->province_id)->get();
-        $districts    = District::where('regency_id', '=', $respondent->regency_id)->get();
-        $villages     = Village::where('district_id', '=', $respondent->district_id)->get();
 
         $data = [
             'genders'       => Gender::all(),
             'educations'    => Education::all(),
             'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
             'respondent'    => $respondent,
             'activeMenu'    => '/manage/respondents/',
             'activeSubmenu' => '/manage/respondents/edit/',
@@ -175,61 +170,61 @@ class RespondentController extends BaseController
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
 
         $fields = $request->getParsedBody();
-            
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $fields['province_id'])->get();
-        $districts = District::where('regency_id', '=', $fields['regency_id'])->get();
-        $villages  = Village::where('district_id', '=', $fields['district_id'])->get();
-        
-        $addPagedata = [
-            'fields'        => $fields,
-            'genders'       => Gender::all(),
-            'educations'    => Education::all(),
-            'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
-            'activeMenu'    => '/manage/respondents/',
-            'activeSubmenu' => '/manage/respondents/add/',
-            'js'            => [
-                'scripts' => [
-                    '/public/assets/manage/js/edit-screen.js',
-                    '/public/assets/manage/js/edit-respondent.js',
-                ]
-            ],
-        ];
-
-        // General validations.
-        if ($request->getAttribute('has_errors')) {
-            $error = $this->response()->generateError();
-
-            $addPagedata['errorMessage'] = $error['message'];
-
-            return $this->view->render($response, "/respondent/add.php", $addPagedata);
-        }
+        $photo  = isset($fields['photo']) ? $fields['photo'] : '';
+        $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
 
         // Check if NIK is already registered.
         if ($this->nikAlreadyRegistered($fields['nik'])) {
-            $error = $this->response()->generateError('nik', 'NIK sudah digunakan');
+            $errorResponse = $this->response()->generateJsonError('nik', 'NIK sudah digunakan');
 
-            $addPagedata['errorMessage'] = $error['message'];
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
 
-            return $this->view->render($response, "/respondent/add.php", $addPagedata);
+        $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
+        $photoDir  = '';
+
+        if (!empty($photo)) {
+            list($type, $photo) = explode(';', $photo);
+            list(, $photo)      = explode(',', $photo);
+
+            $type = explode('/', $type);
+            $type = end($type);
+
+            $photo = base64_decode($photo);
+            
+            $filename = strtolower($fields['name']);
+            $filename = str_ireplace(' ', '-', $filename);
+            $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename . ".{$type}";
+
+            file_put_contents($uploadDir . '/' . $filename . ".{$type}", $photo);
         }
         
-        $insertFields = [
-            'name', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk',
-            'province_id', 'regency_id', 'district_id', 'village_id', 'rw', 'rt', 'address'
-        ];
+        $fields['photo'] = $photoDir;
 
+        $insertFields = [
+            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+        ];
+        
         $data = [];
 
         foreach ($insertFields as $field) {
@@ -240,9 +235,86 @@ class RespondentController extends BaseController
 
         $respondentId = Respondent::insertGetId($data);
 
-        return $response
-        ->withHeader('Location', '/manage/respondents/edit/' . $respondentId . '/saved/')
-        ->withStatus(302);
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan',
+            'data'    => $data
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
+    public function addUpload(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $fields = $request->getParsedBody();
+        $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
+
+        // Check if NIK is already registered.
+        if ($this->nikAlreadyRegistered($fields['nik'])) {
+            $errorResponse = $this->response()->generateJsonError('nik', 'NIK sudah digunakan');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
+        $photoDir  = '';
+
+        $files = $request->getUploadedFiles();
+        $photo = $files['photo'];
+
+        if ($photo->getError() === UPLOAD_ERR_OK) {
+            $filename = $this->moveUploadedFile($uploadDir, $photo);
+            $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename;
+        }
+        
+        $fields['photo'] = $photoDir;
+
+        $insertFields = [
+            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+        ];
+        
+        $data = [];
+
+        foreach ($insertFields as $field) {
+            if (isset($fields[$field])) {
+                $data[$field] = $fields[$field];
+            }
+        }
+
+        $respondentId = Respondent::insertGetId($data);
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan',
+            'data'    => $data
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
     
     public function edit(Request $request, Response $response, array $args)
@@ -324,5 +396,27 @@ class RespondentController extends BaseController
     {
         $respondent = Respondent::where('nik', '=', $nik)->first();
         return (!$respondent ? false : true);
+    }
+
+    /**
+ * Moves the uploaded file to the upload directory and assigns it a unique name
+ * to avoid overwriting an existing uploaded file.
+ *
+ * @param string $directory The directory to which the file is moved
+ * @param UploadedFileInterface $uploadedFile The file uploaded file to move
+ *
+ * @return string The filename of moved file
+ */
+    public function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)
+    {
+        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+
+        // see http://php.net/manual/en/function.random-bytes.php
+        $basename = bin2hex(random_bytes(8));
+        $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+        return $filename;
     }
 }
