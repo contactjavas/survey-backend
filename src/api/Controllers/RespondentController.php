@@ -6,6 +6,7 @@ namespace App\Api\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Psr7\UploadedFile;
 use App\Shared\Models\Respondent;
 use App\Shared\Models\Gender;
 use App\Shared\Models\Religion;
@@ -235,6 +236,8 @@ class RespondentController extends BaseController
 
         $respondentId = Respondent::insertGetId($data);
 
+        $data['id'] = $respondentId;
+
         $payload = json_encode([
             'success' => true,
             'message' => 'Data berhasil disimpan',
@@ -305,6 +308,8 @@ class RespondentController extends BaseController
         }
 
         $respondentId = Respondent::insertGetId($data);
+
+        $data['id'] = $respondentId;
 
         $payload = json_encode([
             'success' => true,
@@ -418,15 +423,15 @@ class RespondentController extends BaseController
     }
 
     /**
- * Moves the uploaded file to the upload directory and assigns it a unique name
- * to avoid overwriting an existing uploaded file.
- *
- * @param string $directory The directory to which the file is moved
- * @param UploadedFileInterface $uploadedFile The file uploaded file to move
- *
- * @return string The filename of moved file
- */
-    public function moveUploadedFile(string $directory, UploadedFileInterface $uploadedFile)
+     * Moves the uploaded file to the upload directory and assigns it a unique name
+     * to avoid overwriting an existing uploaded file.
+     *
+     * @param string $directory The directory to which the file is moved
+     * @param UploadedFile $uploadedFile The file uploaded file to move
+     *
+     * @return string The filename of moved file
+     */
+    public function moveUploadedFile(string $directory, UploadedFile $uploadedFile)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
 
