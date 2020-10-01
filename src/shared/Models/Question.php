@@ -14,6 +14,19 @@ class Question extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be cast.
+     * After migrating from VPS to shared hosting, the target attr returned as string.
+     *
+     * @see https://laracasts.com/discuss/channels/eloquent/eloquent-returns-int-as-string
+     *
+     * @var array
+     */
+    protected $casts = [
+        'question_type_id' => 'integer',
+        'allowAdd'         => 'integer'
+    ];
+
+    /**
      * Appended properties
      *
      * @var array

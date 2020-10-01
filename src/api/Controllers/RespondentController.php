@@ -285,12 +285,14 @@ class RespondentController extends BaseController
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
 
-        $files = $request->getUploadedFiles();
-        $photo = $files['photo'];
-
-        if ($photo->getError() === UPLOAD_ERR_OK) {
-            $filename = $this->moveUploadedFile($uploadDir, $photo);
-            $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename;
+        if (!empty($files) && isset($files['photo'])) {
+            $files = $request->getUploadedFiles();
+            $photo = $files['photo'];
+    
+            if ($photo->getError() === UPLOAD_ERR_OK) {
+                $filename = $this->moveUploadedFile($uploadDir, $photo);
+                $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename;
+            }
         }
         
         $fields['photo'] = $photoDir;
