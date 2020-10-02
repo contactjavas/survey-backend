@@ -134,25 +134,17 @@ class RespondentController extends BaseController
 
             return $this->view->render($response, "/respondent/add.php", $addPagedata);
         }
-
-        // Check if NIK is already registered.
-        if ($this->nikAlreadyRegistered($fields['nik'])) {
-            $error = $this->response()->generateError('nik', 'NIK sudah digunakan');
-
-            $addPagedata['errorMessage'] = $error['message'];
-
-            return $this->view->render($response, "/respondent/add.php", $addPagedata);
-        }
         
         $insertFields = [
-            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
         ];
 
         $data = [];
 
         foreach ($insertFields as $field) {
             if (isset($fields[$field])) {
-                $data[$field] = $fields[$field];
+                $value        = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $data[$field] = $value;
             }
         }
 
@@ -193,12 +185,13 @@ class RespondentController extends BaseController
         ];
 
         $updateFields = [
-            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
         ];
         
         foreach ($updateFields as $field) {
             if (isset($fields[$field])) {
-                $respondent->{$field} = $fields[$field];
+                $value = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $respondent->{$field} = $value;
             }
         }
 

@@ -60,15 +60,6 @@
                                 <div class="material fields has-2">
                                     <div class="field">
                                         <div class="control">
-                                            <input type="number" name="age" id="age" class="input"
-                                                placeholder="Usia" value="<?=(isset($fields['age']) ? $fields['age'] : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="age">Usia</label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="field">
-                                        <div class="control">
                                             <select name="gender_id" id="gender_id" class="input select is-filled" required="">
                                                 <?php foreach ($genders as $gender) : ?>
                                                     <option value="<?=escHtmlAttr($gender->id)?>" <?=(isset($fields['gender_id']) && $gender->id == $fields['gender_id'] ? 'selected' : '')?>>
@@ -77,6 +68,18 @@
                                                 <?php endforeach; ?>
                                             </select>
                                             <label for="gender_id">Jenis Kelamin</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <select name="age_range" id="age_range" class="input select is-filled" required="">
+                                                <option value="17 - 22">( 17 - 22 )</option>
+                                                <option value="23 - 35">( 23 - 35 )</option>
+                                                <option value="36 - 50">( 36 - 50 )</option>
+                                                <option value=">50">( >50 )</option>
+                                            </select>
+                                            <label for="age_range">Usia</label>
                                         </div>
                                     </div>
                                 </div>
@@ -97,17 +100,6 @@
 
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="phone" id="phone" class="input"
-                                                placeholder="Nomor Telepon" value="<?=(isset($fields['phone']) ? $fields['phone'] : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="phone">Nomor Telepon</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="material fields has-2">
-                                    <div class="field">
-                                        <div class="control">
                                             <select name="education_id" id="education_id" class="input select is-filled" required="">
                                                 <?php foreach ($educations as $education) : ?>
                                                     <option value="<?=escHtmlAttr($education->id)?>" <?=(isset($fields['education_id']) && $education->id == $fields['education_id'] ? 'selected' : '')?>>
@@ -118,37 +110,47 @@
                                             <label for="education_id">Pendidikan Terakhir</label>
                                         </div>
                                     </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="text" name="job" id="job" class="input"
-                                                placeholder="Pekerjaan" value="<?=(isset($fields['job']) ? $fields['job'] : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="job">Pekerjaan</label>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="material fields has-2">
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="nik" id="nik"
-                                                class="input" placeholder="NIK" value="<?=(isset($fields['nik']) ? $fields['nik'] : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="nik">NIK</label>
+                                            <select name="job" id="job" class="input select is-filled" required="">
+                                                <option value="ASN">ASN</option>
+                                                <option value="Wiraswasta">Wiraswasta</option>
+                                                <option value="Pegawai">Pegawai</option>
+                                                <option value="Pelajar/ Mahasiswa">Pelajar/ Mahasiswa</option>
+                                                <option value="Lain- lain">Lain- lain</option>
+                                            </select>
+                                            <label for="job">Pekerjaan</label>
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="kk" id="kk"
-                                                class="input" placeholder="Nomor KK" value="<?=(isset($fields['kk']) ? $fields['kk'] : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="kk">Nomor KK</label>
+                                            <select name="income_range" id="income_range" class="input select is-filled" required="">
+                                                <option value="Rp. 0 - Rp. 1.500.000 ,00">Rp. 0 - Rp. 1.500.000 ,00</option>
+                                                <option value="Rp. 1.500.000 ,00 - Rp. 3.000.000 ,00">Rp. 1.500.000 ,00 - Rp. 3.000.000 ,00</option>
+                                                <option value="Rp. 3.000.000 ,00 - Rp. 6.000.000 ,00">Rp. 3.000.000 ,00 - Rp. 6.000.000 ,00</option>
+                                                <option value="> Rp. 6.000.000 ,00"> > Rp. 6.000.000 ,00</option>
+                                            </select>
+                                            <label for="income_range">Penghasilan</label>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="material field">
+                                    <label for="">Aktif di media sosial</label>
+                                    <label for="active_on_social_media_1" class="label radio-label">
+                                        Ya
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_1" value="1" class="radio">
+                                        <div class="indicator"></div>
+                                    </label>
+                                    <label for="active_on_social_media_0" class="label radio-label">
+                                        Tidak
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="1" class="radio">
+                                        <div class="indicator"></div>
+                                    </label>
                                 </div>
 
                                 <div class="material field">

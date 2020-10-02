@@ -61,15 +61,6 @@
                                 <div class="material fields has-2">
                                     <div class="field">
                                         <div class="control">
-                                            <input type="number" name="age" id="age" class="input"
-                                                placeholder="Usia" value="<?=(isset($respondent->age) ? $respondent->age : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="age">Usia</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
                                             <select name="gender_id" id="gender_id" class="input select is-filled" required="">
                                                 <?php foreach ($genders as $gender) : ?>
                                                     <option value="<?=escHtmlAttr($gender->id)?>" <?=(isset($respondent->gender_id) && $gender->id == $respondent->gender_id ? 'selected' : '')?>>
@@ -78,6 +69,18 @@
                                                 <?php endforeach; ?>
                                             </select>
                                             <label for="gender_id">Jenis Kelamin</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <select name="age_range" id="age_range" class="input select is-filled" required="">
+                                                <option value="17 - 22" <?=(isset($respondent->age_range) && '17 - 22' == $respondent->age_range ? 'selected' : '')?>>( 17 - 22 )</option>
+                                                <option value="23 - 35" <?=(isset($respondent->age_range) && '23 - 35' == $respondent->age_range ? 'selected' : '')?>>( 23 - 35 )</option>
+                                                <option value="36 - 50" <?=(isset($respondent->age_range) && '36 - 50' == $respondent->age_range ? 'selected' : '')?>>( 36 - 50 )</option>
+                                                <option value=">50" <?=(isset($respondent->age_range) && '>50' == $respondent->age_range ? 'selected' : '')?>>( >50 )</option>
+                                            </select>
+                                            <label for="age_range">Usia</label>
                                         </div>
                                     </div>
                                 </div>
@@ -98,17 +101,6 @@
                                 
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="phone" id="phone" class="input"
-                                                placeholder="Nomor Telepon" value="<?=(isset($respondent->phone) ? $respondent->phone : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="phone">Nomor Telepon</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="material fields has-2">
-                                    <div class="field">
-                                        <div class="control">
                                             <select name="education_id" id="education_id" class="input select is-filled" required="">
                                                 <?php foreach ($educations as $education) : ?>
                                                     <option value="<?=escHtmlAttr($education->id)?>" <?=(isset($respondent->education_id) && $education->id == $respondent->education_id ? 'selected' : '')?>>
@@ -119,37 +111,48 @@
                                             <label for="education_id">Pendidikan Terakhir</label>
                                         </div>
                                     </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="text" name="job" id="job" class="input"
-                                                placeholder="Pekerjaan" value="<?=(isset($respondent->job) ? $respondent->job : '')?>" autocomplete="off" required>
-                                            <hr>
-                                            <label for="job">Pekerjaan</label>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="material fields has-2">
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="nik" id="nik"
-                                                class="input" placeholder="NIK" value="<?=(isset($respondent->nik) ? $respondent->nik : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="nik">NIK</label>
+                                            <select name="job" id="job" class="input select is-filled" required="">
+                                                <option value="ASN" <?=(isset($respondent->job) && 'ASN' == $respondent->job ? 'selected' : '')?>>ASN</option>
+                                                <option value="Wiraswasta" <?=(isset($respondent->job) && 'Wiraswasta' == $respondent->job ? 'selected' : '')?>>Wiraswasta</option>
+                                                <option value="Pegawai" <?=(isset($respondent->job) && 'Pegawai' == $respondent->job ? 'selected' : '')?>>Pegawai</option>
+                                                <option value="Pelajar/ Mahasiswa" <?=(isset($respondent->job) && 'Pelajar/ Mahasiswa' == $respondent->job ? 'selected' : '')?>>Pelajar/ Mahasiswa</option>
+                                                <option value="Lain- lain" <?=(isset($respondent->job) && 'Lain- lain' == $respondent->job ? 'selected' : '')?>>Lain- lain</option>
+                                            </select>
+                                            <label for="job">Pekerjaan</label>
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" name="kk" id="kk"
-                                                class="input" placeholder="Nomor KK" value="<?=(isset($respondent->kk) ? $respondent->kk : '')?>"
-                                                autocomplete="off" required>
-                                            <hr>
-                                            <label for="kk">Nomor KK</label>
+                                            <select name="income_range" id="income_range" class="input select is-filled" required="">
+                                                <option value="Rp. 0 - Rp. 1.500.000 ,00" <?=(isset($respondent->income_range) && 'Rp. 0 - Rp. 1.500.000 ,00' == $respondent->income_range ? 'selected' : '')?>>Rp. 0 - Rp. 1.500.000 ,00</option>
+                                                <option value="Rp. 1.500.000 ,00 - Rp. 3.000.000 ,00" <?=(isset($respondent->income_range) && 'Rp. 1.500.000 ,00 - Rp. 3.000.000 ,00' == $respondent->income_range ? 'selected' : '')?>>Rp. 1.500.000 ,00 - Rp. 3.000.000 ,00</option>
+                                                <option value="Rp. 3.000.000 ,00 - Rp. 6.000.000 ,00" <?=(isset($respondent->income_range) && 'Rp. 3.000.000 ,00 - Rp. 6.000.000 ,00' == $respondent->income_range ? 'selected' : '')?>>Rp. 3.000.000 ,00 - Rp. 6.000.000 ,00</option>
+                                                <option value="> Rp. 6.000.000 ,00" <?=(isset($respondent->income_range) && '> Rp. 6.000.000 ,00' == $respondent->income_range ? 'selected' : '')?>> > Rp. 6.000.000 ,00</option>
+                                            </select>
+                                            <label for="income_range">Penghasilan</label>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="material field">
+                                    <label for="">Aktif di media sosial</label>
+                                    <label for="active_on_social_media_1" class="label radio-label">
+                                        Ya
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_1" value="1" class="radio">
+                                        <div class="indicator"></div>
+                                    </label>
+
+                                    <label for="active_on_social_media_0" class="label radio-label">
+                                        Tidak
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="1" class="radio">
+                                        <div class="indicator"></div>
+                                    </label>
                                 </div>
 
                                 <div class="material field">

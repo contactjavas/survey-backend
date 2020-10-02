@@ -89,8 +89,8 @@ require __DIR__ . '/../header.php';
                                         <div class="col w10">
                                             <?=escHtml($respondent->gender)?>
                                         </div>
-                                        <div class="col w5">
-                                            <?=escHtml($respondent->age)?>th
+                                        <div class="col w10">
+                                            <?=escHtml($respondent->age_range)?>
                                         </div>
                                         <div class="col w10">
                                             <?=escHtml($respondent->religion)?>
@@ -98,7 +98,7 @@ require __DIR__ . '/../header.php';
                                         <div class="col w10">
                                             <?=escHtml($respondent->education)?>
                                         </div>
-                                        <div class="col w15">
+                                        <div class="col w10">
                                             <?=escHtml($respondent->job)?>
                                         </div>
                                         <div class="col w20">

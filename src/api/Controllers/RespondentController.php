@@ -40,7 +40,7 @@ class RespondentController extends BaseController
             return $response->withHeader('Content-Type', 'application/json');
         }
 
-        $respondents = Respondent::select('id', 'name', 'gender_id', 'age', 'job', 'phone', 'nik')
+        $respondents = Respondent::select('id', 'name', 'gender_id', 'age_range as ageRange', 'job', 'income_range as incomeRange', 'active_on_social_media as activeOnSocialMedia')
         ->get();
 
         $respondents->each(function ($respondent) {
@@ -132,39 +132,48 @@ class RespondentController extends BaseController
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
 
         $respondentId = $args['respondent_id'];
-        $respondent   = Respondent::find($respondentId);
+        $respondent   = Respondent::select(
+            [
+                'id', 'name', 'photo', 'age_range as ageRange', 'income_range as incomeRange', 'gender_id as genderId', 'job', 'religion_id as religionId', 'education_id as educationId', 'active_on_social_media as activeOnSocialMedia', 'address'
+            ]
+        )
+        ->find($respondentId);
 
         $data = [
-            'genders'       => Gender::all(),
-            'educations'    => Education::all(),
-            'religions'     => Religion::all(),
-            'respondent'    => $respondent,
-            'activeMenu'    => '/manage/respondents/',
-            'activeSubmenu' => '/manage/respondents/edit/',
-            'js'            => [
-                'scripts' => [
-                    '/public/assets/manage/js/edit-screen.js',
-                    '/public/assets/manage/js/edit-respondent.js',
-                ]
-            ],
+            'respondent' => $respondent,
+            'genders'    => Gender::all(),
+            'educations' => Education::all(),
+            'religions'  => Religion::all(),
         ];
 
-        if (isset($args['saving_status'])) {
-            if ($args['saving_status'] === 'saved') {
-                $data['successMessage'] = 'Data responden berhasil disimpan';
-            } elseif ($args['saving_status'] === 'updated') {
-                $data['successMessage'] = 'Data responden berhasil diubah';
-            }
-        }
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil diambil',
+            'data'    => $data
+        ]);
 
-        return $this->view->render($response, '/respondent/edit.php', $data);
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
     
     public function add(Request $request, Response $response, array $args)
@@ -193,14 +202,6 @@ class RespondentController extends BaseController
         $photo  = isset($fields['photo']) ? $fields['photo'] : '';
         $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
 
-        // Check if NIK is already registered.
-        if ($this->nikAlreadyRegistered($fields['nik'])) {
-            $errorResponse = $this->response()->generateJsonError('nik', 'NIK sudah digunakan');
-
-            $response->getBody()->write($errorResponse);
-            return $response->withHeader('Content-Type', 'application/json');
-        }
-
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
 
@@ -223,14 +224,16 @@ class RespondentController extends BaseController
         $fields['photo'] = $photoDir;
 
         $insertFields = [
-            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            // 'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
         ];
         
         $data = [];
 
         foreach ($insertFields as $field) {
             if (isset($fields[$field])) {
-                $data[$field] = $fields[$field];
+                $value        = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $data[$field] = $value;
             }
         }
 
@@ -274,14 +277,6 @@ class RespondentController extends BaseController
         $fields = $request->getParsedBody();
         $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
 
-        // Check if NIK is already registered.
-        if ($this->nikAlreadyRegistered($fields['nik'])) {
-            $errorResponse = $this->response()->generateJsonError('nik', 'NIK sudah digunakan');
-
-            $response->getBody()->write($errorResponse);
-            return $response->withHeader('Content-Type', 'application/json');
-        }
-
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
 
@@ -298,14 +293,16 @@ class RespondentController extends BaseController
         $fields['photo'] = $photoDir;
 
         $insertFields = [
-            'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            // 'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
         ];
         
         $data = [];
 
         foreach ($insertFields as $field) {
             if (isset($fields[$field])) {
-                $data[$field] = $fields[$field];
+                $value        = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $data[$field] = $value;
             }
         }
 
@@ -328,56 +325,74 @@ class RespondentController extends BaseController
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
 
-        $fields       = $request->getParsedBody();
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $fields = $request->getParsedBody();
+        $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
+
         $respondentId = (int) $fields['id'];
         $respondent   = Respondent::find($respondentId);
 
-        $provinces = Province::all();
-        $regencies = Regency::where('province_id', '=', $respondent->province_id)->get();
-        $districts = District::where('regency_id', '=', $respondent->regency_id)->get();
-        $villages  = Village::where('district_id', '=', $respondent->district_id)->get();
-        
-        $editPageData = [
-            'genders'       => Gender::all(),
-            'educations'    => Education::all(),
-            'religions'     => Religion::all(),
-            'provinces'     => $provinces,
-            'regencies'     => $regencies,
-            'districts'     => $districts,
-            'villages'      => $villages,
-            'respondent'    => $respondent,
-            'activeMenu'    => '/manage/respondents/',
-            'activeSubmenu' => '/manage/respondents/edit/',
-            'js'            => [
-                'scripts' => [
-                    '/public/assets/manage/js/edit-screen.js',
-                    '/public/assets/manage/js/edit-respondent.js',
-                ]
-            ],
+        $updateFields = [
+            'name', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
         ];
 
-        $updateFields = [
-            'name', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk',
-            'province_id', 'regency_id', 'district_id', 'village_id', 'rw', 'rt', 'address'
-        ];
+        $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
+        $photoDir  = '';
+
+        if (!empty($files) && isset($files['photo'])) {
+            $files = $request->getUploadedFiles();
+            $photo = $files['photo'];
+    
+            if ($photo->getError() === UPLOAD_ERR_OK) {
+                $filename = $this->moveUploadedFile($uploadDir, $photo);
+                $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename;
+            }
+
+            array_push($updateFields, 'photo');
+            $fields['photo'] = $photoDir;
+        }
+
+        $data = [];
         
         foreach ($updateFields as $field) {
             if (isset($fields[$field])) {
-                $respondent->{$field} = $fields[$field];
+                $value        = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $data[$field] = $value;
+
+                $respondent->{$field} = $value;
             }
         }
 
         $respondent->save();
 
-        $editPageData['successMessage'] = 'Data respondent berhasil diubah';
+        $data['id'] = $respondentId;
 
-        return $this->view->render($response, "/respondent/edit.php", $editPageData);
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil diubah',
+            'data'    => $data
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
     
     public function delete(Request $request, Response $response, array $args)
