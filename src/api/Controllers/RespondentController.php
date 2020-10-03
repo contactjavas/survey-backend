@@ -346,7 +346,7 @@ class RespondentController extends BaseController
         $fields = $request->getParsedBody();
         $fields = isset($fields['data']) ? json_decode($fields['data'], true) : [];
 
-        $respondentId = (int) $fields['id'];
+        $respondentId = (int) $args['respondent_id'];
         $respondent   = Respondent::find($respondentId);
 
         $updateFields = [
