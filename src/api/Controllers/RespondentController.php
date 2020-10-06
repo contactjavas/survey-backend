@@ -65,17 +65,27 @@ class RespondentController extends BaseController
 
         $query  = $args['query'];
         $format = $args['data_format'];
-        $column = is_numeric($query) ? 'nik' : 'name';
+        $column = 'name';
 
         if ($format === 'simple') {
             $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
-            ->select('id', 'name', 'nik')
+            ->select('id', 'name', 'job')
             ->get();
+
+            $respondents->each(function ($respondent) {
+                $respondent->setAppends([]);
+            });
         } else {
             $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
-            ->select('id', 'name', 'gender_id', 'age', 'job', 'phone', 'nik')
+            ->select('id', 'name', 'gender_id', 'age_range as ageRange', 'religion_id', 'education_id', 'job')
             ->get();
+            
+            $respondents->each(function ($respondent) {
+                $respondent->setAppends(['gender', 'religion', 'education']);
+                $respondent->setHidden(['gender_id', 'religion_id', 'education_id']);
+            });
         }
+
 
         $payload = json_encode([
             'success' => true,
