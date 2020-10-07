@@ -11,7 +11,7 @@
                 <nav class="breadcrumb">
                     <ul>
                         <li>
-                            <a href="index.html">Profil</a>
+                            <a href="<?=escHtmlAttr($activeMenu)?>">Profil</a>
                         </li>
                         <li class="is-active">
                             <span>Edit</span>

@@ -11,7 +11,7 @@
                 <nav class="breadcrumb">
                     <ul>
                         <li>
-                            <a href="index.html">Survey</a>
+                            <a href="<?=escHtmlAttr($activeMenu)?>">Survey</a>
                         </li>
                         <li class="is-active">
                             <span>Edit</span>

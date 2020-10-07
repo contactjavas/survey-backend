@@ -68,4 +68,8 @@ return function (App $app) {
         $group->post('/edit/{vote_id}[/]', 'VoteController:edit');
         $group->get('/delete/{vote_id}[/]', 'VoteController:delete');
     });
+
+    $app->group('/manage/survey/{survey_id}/result', function (Group $group) {
+        $group->get('[/]', 'ResultController:result');
+    });
 };

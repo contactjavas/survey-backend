@@ -11,7 +11,7 @@
                 <nav class="breadcrumb">
                     <ul>
                         <li>
-                            <a href="index.html">Pengguna</a>
+                            <a href="<?=escHtmlAttr($activeMenu)?>">Pengguna</a>
                         </li>
                         <li class="is-active">
                             <span>Tambah</span>
