@@ -9,7 +9,7 @@ $menu = $menu();
 <div class="sidebar" data-simplebar>
     <div class="logo-area">
         <a href="" class="logo-link">
-            <img src="/public/assets/manage/images/sample-logo.png" alt="Logo" class="logo">
+            <img src="/public/assets/manage/images/votty-logo.png" alt="Logo" class="logo">
         </a>
     </div>
 

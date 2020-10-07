@@ -17,6 +17,7 @@ declare(strict_types=1);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/usefulteam/columns@1.0.0/dist/columns.min.css">
     <link rel="stylesheet" href="/public/assets/slim-ui/assets/css/slim-ui.min.css">
+    <link rel="stylesheet" href="/public/assets/front/css/login.css">
 </head>
 
 <body spellcheck="false" class="login-page">
@@ -26,7 +27,7 @@ declare(strict_types=1);
         <div class="left-section form-section">
             <form action="" method="post" class="login-form material">
                 <a href="" class="logo-link">
-                    <img src="/public/assets/front/images/sample-logo-compact.png" alt="Logo" class="logo">
+                    <img src="/public/assets/front/images/votty-logo-compact-blue.png" alt="Logo" class="logo">
                 </a>
 
                 <h1>Welcome Back</h1>

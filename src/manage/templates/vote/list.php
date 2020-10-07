@@ -97,12 +97,6 @@ require __DIR__ . '/../header.php';
                                         </div>
                                         <div class="col w20">
                                             <?=escHtml($vote->respondent->address)?>
-                                            ,
-                                            RT <?=escHtml($vote->respondent->rt)?>,
-                                            RW <?=escHtml($vote->respondent->rw)?>
-                                            ,
-                                            <?=escHtml($vote->respondent->village)?>,
-                                            <?=escHtml($vote->respondent->district)?>
                                         </div>
                                         <div class="col w10">
                                             <div class="buttons action-buttons">

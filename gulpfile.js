@@ -81,7 +81,7 @@ function minifyScripts() {
 
 function serveBrowserSync(cb) {
   browserSync.init({
-    proxy: "survey-bupati.local",
+    proxy: "survey-backend.local",
     notify: true,
   });
 
