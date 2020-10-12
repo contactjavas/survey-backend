@@ -23,6 +23,7 @@ return function (App $app, ContainerInterface $container, array $settings) {
 
                     // open route for other routes
                     '/api/blank',
+                    '/api/survey/result/*',
                     '/api/mail/send',
                     '/api/token/instant'
                 ]

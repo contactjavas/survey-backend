@@ -72,6 +72,25 @@
 		}
 	}
 
+	&.has-5 {
+		.field {
+			margin-bottom: 0;
+			width: 20%;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			&:first-child {
+				padding-left: 0;
+				padding-right: 10px;
+			}
+
+			&:last-child {
+				padding-left: 10px;
+				padding-right: 0;
+			}
+		}
+	}
+
 	&.has-many {
 		.field {
 			margin-bottom: 0;
@@ -94,7 +113,8 @@
 	&.has-many,
 	&.has-2,
 	&.has-3,
-	&.has-4 {
+	&.has-4,
+	&.has-5 {
 		display: flex;
 		flex-wrap: wrap;
 

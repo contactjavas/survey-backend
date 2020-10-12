@@ -11,6 +11,7 @@ use App\Api\Controllers\VoteController;
 use App\Api\Controllers\QuestionController;
 use App\Api\Controllers\QuestionChoiceController;
 use App\Api\Controllers\RespondentController;
+use App\Api\Controllers\ResultController;
 
 return function (ContainerInterface $container, array $settings) {
     $container->set('Select2Controller', function () use ($container, $settings) {
@@ -51,5 +52,10 @@ return function (ContainerInterface $container, array $settings) {
     $container->set('RespondentController', function () use ($container, $settings) {
         $db = $container->get('db');
         return new RespondentController($container, $db);
+    });
+
+    $container->set('ResultController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new ResultController($container, $db);
     });
 };

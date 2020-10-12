@@ -13,6 +13,9 @@ use App\Shared\Models\QuestionType;
 use App\Shared\Models\QuestionChoice;
 use App\Shared\Models\Answer;
 use App\Shared\Models\Respondent;
+use App\Shared\Models\Gender;
+use App\Shared\Models\Religion;
+use App\Shared\Models\Education;
 
 class ResultController extends BaseController
 {
@@ -28,7 +31,7 @@ class ResultController extends BaseController
 
         $surveyId  = (int) $args['survey_id'];
         $questions = Question::where('survey_id', $surveyId)
-        ->select('id', 'title', 'question_type_id', 'allow_add as allowAdd')
+        ->select('id', 'title', 'question_type_id')
         ->get();
 
         $questions->makeHidden(['survey_id']);
@@ -60,6 +63,9 @@ class ResultController extends BaseController
 
         $data = [
             'currentUser'   => $this->user()->get(),
+            'genders'       => Gender::all(),
+            'educations'    => Education::all(),
+            'religions'     => Religion::all(),
             'surveyId'      => $surveyId,
             'questionTypes' => QuestionType::all(),
             'questions'     => $questions,
@@ -67,16 +73,16 @@ class ResultController extends BaseController
             'activeSubmenu' => '/manage/survey/' . $surveyId . '/result/',
             'css'           => [
                 'styles' => [
-                    '/public/assets/manage/css/graphic.css',
+                    '/public/assets/manage/css/result-charts.css',
                 ]
             ],
             'js'            => [
                 'scripts' => [
-                    '/public/assets/manage/js/graphic.js',
+                    '/public/assets/manage/js/result-charts.js',
                 ]
             ],
         ];
 
-        return $this->view->render($response, "/result/graphic.php", $data);
+        return $this->view->render($response, "/result/charts.php", $data);
     }
 }

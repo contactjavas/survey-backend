@@ -148,7 +148,7 @@
                                     </label>
                                     <label for="active_on_social_media_0" class="label radio-label">
                                         Tidak
-                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="1" class="radio">
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="0" class="radio">
                                         <div class="indicator"></div>
                                     </label>
                                 </div>

@@ -58,6 +58,10 @@ return function (App $app) {
         $group->get('/delete/{vote_id}[/]', 'VoteController:delete');
     });
 
+    $app->group('/api/survey/result/{survey_id}', function (Group $group) {
+        $group->post('/filter[/]', 'ResultController:filter');
+    });
+
     $app->group('/api/question/{question_id}/choices', function (Group $group) {
         $group->get('[/]', 'QuestionChoiceController:list');
     });
