@@ -73,12 +73,12 @@ class ResultController extends BaseController
             'activeSubmenu' => '/manage/survey/' . $surveyId . '/result/',
             'css'           => [
                 'styles' => [
-                    '/public/assets/manage/css/result-charts.css',
+                    '/public/assets/manage/css/result-charts.css?cache=1',
                 ]
             ],
             'js'            => [
                 'scripts' => [
-                    '/public/assets/manage/js/result-charts.js',
+                    '/public/assets/manage/js/result-charts.js?cache=1',
                 ]
             ],
         ];
