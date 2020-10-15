@@ -60,7 +60,7 @@ require __DIR__ . '/../header.php';
                                     <div class="col w10">
                                         Jenis Kelamin
                                     </div>
-                                    <div class="col w5">
+                                    <div class="col w10">
                                         Usia
                                     </div>
                                     <div class="col w10">
@@ -72,7 +72,7 @@ require __DIR__ . '/../header.php';
                                     <div class="col w15">
                                         Pekerjaan
                                     </div>
-                                    <div class="col w20">
+                                    <div class="col w15">
                                         Alamat
                                     </div>
                                     <div class="col w10">
@@ -84,13 +84,13 @@ require __DIR__ . '/../header.php';
                                 <?php foreach ($respondents as $respondent) : ?>
                                     <div class="row">
                                         <div class="col w20">
-                                            <?=escHtml($respondent->name)?>
+                                            <?=ucwords(escHtml($respondent->name))?>
                                         </div>
                                         <div class="col w10">
                                             <?=escHtml($respondent->gender)?>
                                         </div>
                                         <div class="col w10">
-                                            <?=escHtml($respondent->age_range)?>
+                                            <?=escHtml($respondent->age_range)?>th
                                         </div>
                                         <div class="col w10">
                                             <?=escHtml($respondent->religion)?>
@@ -98,11 +98,11 @@ require __DIR__ . '/../header.php';
                                         <div class="col w10">
                                             <?=escHtml($respondent->education)?>
                                         </div>
-                                        <div class="col w10">
+                                        <div class="col w15">
                                             <?=escHtml($respondent->job)?>
                                         </div>
-                                        <div class="col w20">
-                                            <?=escHtml($respondent->address)?>
+                                        <div class="col w15">
+                                            <?=ucwords(escHtml($respondent->address))?>
                                         </div>
                                         <div class="col w10">
                                             <div class="buttons action-buttons">

@@ -60,8 +60,8 @@ require __DIR__ . '/../header.php';
                                     <div class="col w20">
                                         Nama Responden
                                     </div>
-                                    <div class="col w5">
-                                        Usia
+                                    <div class="col w10">
+                                       Jenjang Usia
                                     </div>
                                     <div class="col w10">
                                         Pendidikan
@@ -69,7 +69,7 @@ require __DIR__ . '/../header.php';
                                     <div class="col w15">
                                         Pekerjaan
                                     </div>
-                                    <div class="col w20">
+                                    <div class="col w15">
                                         Alamat
                                     </div>
                                     <div class="col w10">
@@ -81,13 +81,18 @@ require __DIR__ . '/../header.php';
                                 <?php foreach ($votes as $vote) : ?>
                                     <div class="row">
                                         <div class="col w20">
-                                            <?=escHtml(Carbon::parse($vote->created_at)->translatedFormat('j F Y'))?>
+                                            <?=escHtml(Carbon::parse($vote->created_at)->translatedFormat('l, j F Y'))?>
+                                            <div>
+                                                <small>
+                                                    Jam <?=escHtml(Carbon::parse($vote->created_at)->translatedFormat('H:i'))?>
+                                                </small>
+                                            </div>
                                         </div>
                                         <div class="col w20">
-                                            <?=escHtml($vote->respondent->name)?>
+                                            <?=ucwords(escHtml($vote->respondent->name))?>
                                         </div>
-                                        <div class="col w5">
-                                            <?=escHtml($vote->respondent->age)?>th
+                                        <div class="col w10">
+                                            <?=escHtml($vote->respondent->age_range)?>th
                                         </div>
                                         <div class="col w10">
                                             <?=escHtml($vote->respondent->education)?>
@@ -95,8 +100,8 @@ require __DIR__ . '/../header.php';
                                         <div class="col w15">
                                             <?=escHtml($vote->respondent->job)?>
                                         </div>
-                                        <div class="col w20">
-                                            <?=escHtml($vote->respondent->address)?>
+                                        <div class="col w15">
+                                            <?=ucwords(escHtml($vote->respondent->address))?>
                                         </div>
                                         <div class="col w10">
                                             <div class="buttons action-buttons">
