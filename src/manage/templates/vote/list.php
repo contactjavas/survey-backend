@@ -117,7 +117,17 @@ require __DIR__ . '/../header.php';
                                 <?php endforeach; ?>
                             </div>
                             <footer class="tfoot">
-                                &nbsp;
+                                <nav class="pagination is-rounded">
+                                    <ul class="pagination-list">
+                                        <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                                            <li class="<?=($i === $currentPage ? 'is-active' : '')?>">
+                                                <a href="/manage/survey/<?=$surveyId?>/votes/page/<?=$i?>" class="pagination-link">
+                                                    <?=$i?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
                             </footer>
                         </div>
         

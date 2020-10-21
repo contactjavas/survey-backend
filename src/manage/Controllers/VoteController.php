@@ -16,6 +16,13 @@ use App\Shared\Models\Respondent;
 
 class VoteController extends BaseController
 {
+    /**
+     * How many respondents should shown per page.
+     *
+     * @var integer
+     */
+    public $per_page = 100;
+
     public function listPage(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);
@@ -26,12 +33,56 @@ class VoteController extends BaseController
             ->withStatus(302);
         }
 
-        $surveyId = (int) $args['survey_id'];
+        $surveyId   = (int) $args['survey_id'];
+        $pageNumber = 1;
+        $votes      = Vote::where('survey_id', $surveyId)
+        ->offset($pageNumber)
+        ->limit($this->per_page)
+        ->get();
+
+        $totalVotes = Vote::where('survey_id', $surveyId)->get()->count();
+        $totalPages = ceil($totalVotes / $this->per_page);
 
         $data = [
             'currentUser'   => $this->user()->get(),
             'surveyId'      => $surveyId,
-            'votes'         => Vote::where('survey_id', $surveyId)->get(),
+            'votes'         => $votes,
+            'totalVotes'    => $totalVotes,
+            'totalPages'    => $totalPages,
+            'currentPage'   => $pageNumber,
+            'activeMenu'    => '/manage/survey/' . $surveyId . '/',
+            'activeSubmenu' => '/manage/survey/' . $surveyId . '/votes/',
+        ];
+
+        return $this->view->render($response, "/vote/list.php", $data);
+    }
+    public function pagedListPage(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        if (!$this->user()->isLoggedIn()) {
+            return $response
+            ->withHeader('Location', '/login/')
+            ->withStatus(302);
+        }
+
+        $surveyId   = (int) $args['survey_id'];
+        $pageNumber = (int) $args['page_number'];
+        $votes      = Vote::where('survey_id', $surveyId)
+        ->offset($pageNumber)
+        ->limit($this->per_page)
+        ->get();
+
+        $totalVotes = Vote::where('survey_id', $surveyId)->get()->count();
+        $totalPages = ceil($totalVotes / $this->per_page);
+
+        $data = [
+            'currentUser'   => $this->user()->get(),
+            'surveyId'      => $surveyId,
+            'votes'         => $votes,
+            'totalVotes'    => $totalVotes,
+            'totalPages'    => $totalPages,
+            'currentPage'   => $pageNumber,
             'activeMenu'    => '/manage/survey/' . $surveyId . '/',
             'activeSubmenu' => '/manage/survey/' . $surveyId . '/votes/',
         ];

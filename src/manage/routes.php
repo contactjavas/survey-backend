@@ -62,6 +62,7 @@ return function (App $app) {
 
     $app->group('/manage/survey/{survey_id}/votes', function (Group $group) {
         $group->get('[/]', 'VoteController:listPage');
+        $group->get('/page/{page_number}[/]', 'VoteController:pagedListPage');
         $group->get('/add[/]', 'VoteController:addPage');
         $group->post('/add[/]', 'VoteController:add');
         $group->get('/edit/{vote_id}[/]', 'VoteController:editPage');

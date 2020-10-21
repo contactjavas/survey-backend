@@ -14,7 +14,7 @@ use App\Shared\Models\Education;
 class RespondentController extends BaseController
 {
     /**
-     * How many respondents are shown per page.
+     * How many respondents should shown per page.
      *
      * @var integer
      */
