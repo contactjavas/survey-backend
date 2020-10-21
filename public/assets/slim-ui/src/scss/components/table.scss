@@ -18,6 +18,10 @@
 		}
 	}
 
+	.tfoot {
+		padding: 15px 0;
+	}
+
 	.status {
 		&.is-active {
 			color: $color-green;

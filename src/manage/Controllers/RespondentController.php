@@ -13,6 +13,13 @@ use App\Shared\Models\Education;
 
 class RespondentController extends BaseController
 {
+    /**
+     * How many respondents are shown per page.
+     *
+     * @var integer
+     */
+    public $per_page = 100;
+
     public function listPage(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);
@@ -23,11 +30,53 @@ class RespondentController extends BaseController
             ->withStatus(302);
         }
 
+        $pageNumber  = 1;
+        $respondents = Respondent::offset($pageNumber)
+        ->limit($this->per_page)
+        ->get();
+
+        $totalRespondents = Respondent::select('id')->get()->count();
+        $totalPages       = ceil($totalRespondents / $this->per_page);
+
         $data = [
-            'currentUser'   => $this->user()->get(),
-            'respondents'   => Respondent::all(),
-            'activeMenu'    => '/manage/respondents/',
-            'activeSubmenu' => '/manage/respondents/',
+            'currentUser'      => $this->user()->get(),
+            'respondents'      => $respondents,
+            'totalRespondents' => $totalRespondents,
+            'totalPages'       => $totalPages,
+            'currentPage'      => $pageNumber,
+            'activeMenu'       => '/manage/respondents/',
+            'activeSubmenu'    => '/manage/respondents/',
+        ];
+
+        return $this->view->render($response, "/respondent/list.php", $data);
+    }
+
+    public function pagedListPage(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        if (!$this->user()->isLoggedIn()) {
+            return $response
+            ->withHeader('Location', '/login/')
+            ->withStatus(302);
+        }
+
+        $pageNumber  = (int) $args['page_number'];
+        $respondents = Respondent::offset($pageNumber)
+        ->limit($this->per_page)
+        ->get();
+
+        $totalRespondents = Respondent::select('id')->get()->count();
+        $totalPages       = ceil($totalRespondents / $this->per_page);
+
+        $data = [
+            'currentUser'      => $this->user()->get(),
+            'respondents'      => $respondents,
+            'totalRespondents' => $totalRespondents,
+            'totalPages'       => $totalPages,
+            'currentPage'      => $pageNumber,
+            'activeMenu'       => '/manage/respondents/',
+            'activeSubmenu'    => '/manage/respondents/',
         ];
 
         return $this->view->render($response, "/respondent/list.php", $data);

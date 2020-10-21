@@ -31,6 +31,7 @@ return function (App $app) {
 
     $app->group('/manage/respondents', function (Group $group) {
         $group->get('[/]', 'RespondentController:listPage');
+        $group->get('/page/{page_number}[/]', 'RespondentController:pagedListPage');
         $group->get('/add[/]', 'RespondentController:addPage');
         $group->post('/add[/]', 'RespondentController:add');
         $group->get('/edit/{respondent_id}[/]', 'RespondentController:editPage');
