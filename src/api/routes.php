@@ -49,13 +49,16 @@ return function (App $app) {
     });
 
     $app->group('/api/survey/{survey_id}/votes', function (Group $group) {
-        $group->get('[/]', 'VoteController:listPage');
         $group->get('/add[/]', 'VoteController:addPage');
         $group->post('/add[/]', 'VoteController:add');
         $group->get('/edit/{vote_id}[/]', 'VoteController:editPage');
         $group->get('/edit/{vote_id}/{saving_status}[/]', 'VoteController:editPage');
         $group->post('/edit/{vote_id}[/]', 'VoteController:edit');
         $group->get('/delete/{vote_id}[/]', 'VoteController:delete');
+    });
+
+    $app->group('/api/votes', function (Group $group) {
+        $group->get('[/]', 'VoteController:list');
     });
 
     $app->group('/api/survey/result/{survey_id}', function (Group $group) {

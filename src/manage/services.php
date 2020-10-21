@@ -10,6 +10,7 @@ use App\Manage\Controllers\CandidateController;
 use App\Manage\Controllers\QuestionController;
 use App\Manage\Controllers\VoteController;
 use App\Manage\Controllers\ResultController;
+use App\Manage\Controllers\DebugController;
 
 return function (ContainerInterface $container, array $settings) {
     $container->set('SurveyController', function () use ($container, $settings) {
@@ -45,5 +46,10 @@ return function (ContainerInterface $container, array $settings) {
     $container->set('ResultController', function () use ($container, $settings) {
         $db = $container->get('db');
         return new ResultController($container, $db);
+    });
+
+    $container->set('DebugController', function () use ($container, $settings) {
+        $db = $container->get('db');
+        return new DebugController($container, $db);
     });
 };

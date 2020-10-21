@@ -34,7 +34,7 @@ class SurveyController extends BaseController
         }
 
         $surveys = Survey::where('is_active', 1)
-        ->select('id', 'title', 'target', 'start_date as startDate', 'end_date as endDate')
+        ->select('id', 'created_at as createdAt', 'title', 'target', 'start_date as startDate', 'end_date as endDate')
         ->get();
 
         $payload = json_encode([

@@ -41,11 +41,11 @@ class RespondentController extends BaseController
         }
 
         $respondents = Respondent::select('id', 'name', 'gender_id', 'age_range as ageRange', 'job', 'income_range as incomeRange', 'active_on_social_media as activeOnSocialMedia')
+        ->where('added_by', $this->user()->getId())
         ->get();
 
         $respondents->each(function ($respondent) {
             $respondent->setAppends(['gender']);
-            $respondent->setHidden(['gender_id']);
         });
 
         $payload = json_encode([
@@ -69,6 +69,7 @@ class RespondentController extends BaseController
 
         if ($format === 'simple') {
             $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
+            ->where('added_by', $this->user()->getId())
             ->select('id', 'name', 'job')
             ->get();
 
@@ -77,6 +78,7 @@ class RespondentController extends BaseController
             });
         } else {
             $respondents = Respondent::where($column, 'LIKE', '%' . $query . '%')
+            ->where('added_by', $this->user()->getId())
             ->select('id', 'name', 'gender_id', 'age_range as ageRange', 'religion_id', 'education_id', 'job')
             ->get();
             
@@ -231,11 +233,12 @@ class RespondentController extends BaseController
             file_put_contents($uploadDir . '/' . $filename . ".{$type}", $photo);
         }
         
-        $fields['photo'] = $photoDir;
+        $fields['photo']    = $photoDir;
+        $fields['added_by'] = $this->user()->getId();
 
         $insertFields = [
-            // 'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
-            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id',
+            'job', 'income_range', 'active_on_social_media', 'address', 'added_by'
         ];
         
         $data = [];
@@ -300,11 +303,12 @@ class RespondentController extends BaseController
             }
         }
         
-        $fields['photo'] = $photoDir;
+        $fields['photo']    = $photoDir;
+        $fields['added_by'] = $this->user()->getId();
 
         $insertFields = [
-            // 'name', 'photo', 'age', 'gender_id', 'job', 'religion_id', 'education_id', 'phone', 'nik', 'kk', 'address'
-            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id',
+            'job', 'income_range', 'active_on_social_media', 'address', 'added_by'
         ];
         
         $data = [];
@@ -360,7 +364,8 @@ class RespondentController extends BaseController
         $respondent   = Respondent::find($respondentId);
 
         $updateFields = [
-            'name', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
+            'name', 'gender_id', 'age_range', 'religion_id', 'education_id',
+            'job', 'income_range', 'active_on_social_media', 'address'
         ];
 
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
@@ -441,12 +446,6 @@ class RespondentController extends BaseController
 
         return $response
         ->withHeader('Content-Type', 'application/json');
-    }
-
-    public function nikAlreadyRegistered($nik)
-    {
-        $respondent = Respondent::where('nik', '=', $nik)->first();
-        return (!$respondent ? false : true);
     }
 
     /**

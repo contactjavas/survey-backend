@@ -134,9 +134,12 @@ class RespondentController extends BaseController
 
             return $this->view->render($response, "/respondent/add.php", $addPagedata);
         }
+
+        $fields['added_by'] = $this->user()->getId();
         
         $insertFields = [
-            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id', 'job', 'income_range', 'active_on_social_media', 'address'
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id',
+            'job', 'income_range', 'active_on_social_media', 'address', 'added_by'
         ];
 
         $data = [];
@@ -219,11 +222,5 @@ class RespondentController extends BaseController
         return $response
         ->withHeader('Location', '/manage/respondents/')
         ->withStatus(302);
-    }
-
-    public function nikAlreadyRegistered($nik)
-    {
-        $respondent = Respondent::where('nik', '=', $nik)->first();
-        return (!$respondent ? false : true);
     }
 }

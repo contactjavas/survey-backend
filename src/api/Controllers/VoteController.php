@@ -6,6 +6,7 @@ namespace App\Api\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Shared\Models\Survey;
 use App\Shared\Models\Vote;
 use App\Shared\Models\User;
 use App\Shared\Models\Question;
@@ -16,27 +17,48 @@ use App\Shared\Models\Respondent;
 
 class VoteController extends BaseController
 {
-    public function listPage(Request $request, Response $response, array $args)
+    public function list(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);
 
-        if (!$this->user()->isLoggedIn()) {
-            return $response
-            ->withHeader('Location', '/login/')
-            ->withStatus(302);
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
         }
 
         $surveyId = (int) $args['survey_id'];
+        $votes    = Vote::where('user_id', $this->user()->getId())
+        ->select('id', 'created_at as createdAt', 'survey_id', 'respondent_id')
+        ->get();
 
-        $data = [
-            'currentUser'   => $this->user()->get(),
-            'surveyId'      => $surveyId,
-            'votes'         => Vote::where('survey_id', $surveyId)->get(),
-            'activeMenu'    => '/manage/survey/' . $surveyId . '/',
-            'activeSubmenu' => '/manage/survey/' . $surveyId . '/votes/',
-        ];
+        foreach ($votes as &$vote) {
+            $vote->survey = Survey::select('id', 'title')->find($vote->survey_id);
 
-        return $this->view->render($response, "/vote/list.php", $data);
+            $vote->setHidden(['survey_id', 'surveyor', 'respondent_id']);
+        }
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil diambil',
+            'data'    => $votes
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
     
     public function addPage(Request $request, Response $response, array $args)
@@ -231,10 +253,19 @@ class VoteController extends BaseController
             }
         }
 
+        $vote = Vote::select('id', 'created_at as createdAt', 'survey_id', 'respondent_id')
+        ->find($voteId);
+
+        if ($vote) {
+            $vote->survey = Survey::select('id', 'title')->find($vote->survey_id);
+    
+            $vote->setHidden(['survey_id', 'surveyor', 'respondent_id']);
+        }
+
         $payload = json_encode([
             'success' => true,
             'message' => 'Data berhasil disimpan',
-            'data'    => $fields
+            'data'    => $vote
         ]);
 
         $response->getBody()->write($payload);

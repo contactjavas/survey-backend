@@ -72,4 +72,8 @@ return function (App $app) {
     $app->group('/manage/survey/{survey_id}/result', function (Group $group) {
         $group->get('[/]', 'ResultController:result');
     });
+
+    $app->group('/manage/debug', function (Group $group) {
+        // $group->get('/insert-respondents-added-by[/]', 'DebugController:insertRespondentsAddedBy');
+    });
 };
