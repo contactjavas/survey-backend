@@ -144,13 +144,13 @@
                                     <label for="">Aktif di media sosial</label>
                                     <label for="active_on_social_media_1" class="label radio-label">
                                         Ya
-                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_1" value="1" class="radio">
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_1" value="1" class="radio" <?=($respondent->active_on_social_media ? 'checked' : '')?>>
                                         <div class="indicator"></div>
                                     </label>
 
                                     <label for="active_on_social_media_0" class="label radio-label">
                                         Tidak
-                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="0" class="radio">
+                                        <input type="radio" name="active_on_social_media" id="active_on_social_media_0" value="0" class="radio" <?=(!$respondent->active_on_social_media ? 'checked' : '')?>>
                                         <div class="indicator"></div>
                                     </label>
                                 </div>
