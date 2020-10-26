@@ -57,7 +57,7 @@ require __DIR__ . '/../header.php';
                                     <div class="col w20">
                                         Tangal Survey
                                     </div>
-                                    <div class="col w20">
+                                    <div class="col w15">
                                         Nama Responden
                                     </div>
                                     <div class="col w10">
@@ -71,6 +71,9 @@ require __DIR__ . '/../header.php';
                                     </div>
                                     <div class="col w15">
                                         Alamat
+                                    </div>
+                                    <div class="col w5">
+                                        Surveyor
                                     </div>
                                     <div class="col w10">
                                         &nbsp;
@@ -88,7 +91,7 @@ require __DIR__ . '/../header.php';
                                                 </small>
                                             </div>
                                         </div>
-                                        <div class="col w20">
+                                        <div class="col w15">
                                             <?=ucwords(escHtml($vote->respondent->name))?>
                                         </div>
                                         <div class="col w10">
@@ -102,6 +105,9 @@ require __DIR__ . '/../header.php';
                                         </div>
                                         <div class="col w15">
                                             <?=ucwords(escHtml($vote->respondent->address))?>
+                                        </div>
+                                        <div class="col w5">
+                                            <?=ucwords(escHtml($vote->surveyor->first_name))?>
                                         </div>
                                         <div class="col w10">
                                             <div class="buttons action-buttons">

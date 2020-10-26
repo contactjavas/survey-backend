@@ -35,8 +35,11 @@ class VoteController extends BaseController
 
         $surveyId   = (int) $args['survey_id'];
         $pageNumber = 1;
-        $votes      = Vote::where('survey_id', $surveyId)
-        ->offset($pageNumber)
+        $offset     = ($pageNumber - 1) * $this->per_page;
+
+        $votes = Vote::where('survey_id', $surveyId)
+        ->orderBy('id', 'desc')
+        ->offset($offset)
         ->limit($this->per_page)
         ->get();
 
@@ -68,8 +71,11 @@ class VoteController extends BaseController
 
         $surveyId   = (int) $args['survey_id'];
         $pageNumber = (int) $args['page_number'];
-        $votes      = Vote::where('survey_id', $surveyId)
-        ->offset($pageNumber)
+        $offset     = ($pageNumber - 1) * $this->per_page;
+
+        $votes = Vote::where('survey_id', $surveyId)
+        ->orderBy('id', 'desc')
+        ->offset($offset)
         ->limit($this->per_page)
         ->get();
 

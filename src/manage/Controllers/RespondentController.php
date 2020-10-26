@@ -31,7 +31,9 @@ class RespondentController extends BaseController
         }
 
         $pageNumber  = 1;
-        $respondents = Respondent::offset($pageNumber)
+        $offset      = ($pageNumber - 1) * $this->per_page;
+        $respondents = Respondent::orderBy('id', 'desc')
+        ->offset($offset)
         ->limit($this->per_page)
         ->get();
 
@@ -62,7 +64,9 @@ class RespondentController extends BaseController
         }
 
         $pageNumber  = (int) $args['page_number'];
-        $respondents = Respondent::offset($pageNumber)
+        $offset      = ($pageNumber - 1) * $this->per_page;
+        $respondents = Respondent::orderBy('id', 'desc')
+        ->offset($offset)
         ->limit($this->per_page)
         ->get();
 

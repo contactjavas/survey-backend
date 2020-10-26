@@ -207,7 +207,7 @@ class VoteController extends BaseController
             $answers[$question->id] = $answer;
         }
         
-        $insertFields = ['survey_id', 'respondent_id', 'user_id'];
+        $insertFields = ['survey_id', 'respondent_id', 'user_id', 'latitude', 'longitude', 'location'];
 
         $data = [];
 
