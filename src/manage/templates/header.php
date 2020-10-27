@@ -30,7 +30,7 @@ declare(strict_types=1);
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <link rel="stylesheet" href="/public/assets/slim-ui/assets/css/slim-ui.min.css?cache=2">
+    <link rel="stylesheet" href="/public/assets/slim-ui/assets/css/slim-ui.min.css?cache=3">
 
     <?php if (isset($css) && isset($css['styles'])) : ?>
         <?php foreach ($css['styles'] as $url) : ?>

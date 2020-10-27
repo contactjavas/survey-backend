@@ -60,6 +60,10 @@ a {
   background-color: $primary-color-alt;
 }
 
+.has-small-text {
+	font-size: 90%;
+}
+
 @include mobile-down {
   .main-screen {
     padding-left: 0;

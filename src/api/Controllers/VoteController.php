@@ -6,6 +6,8 @@ namespace App\Api\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use GuzzleHttp\Client;
+use Spatie\Geocoder\Geocoder;
 use App\Shared\Models\Survey;
 use App\Shared\Models\Vote;
 use App\Shared\Models\User;
@@ -214,6 +216,24 @@ class VoteController extends BaseController
         foreach ($insertFields as $field) {
             if (isset($fields[$field])) {
                 $data[$field] = $fields[$field];
+            }
+        }
+
+        if (!isset($data['location']) || empty($data['location'])) {
+            if (isset($data['latitude']) && !empty($data['latitude']) && isset($data['longitude']) && !empty($data['longitude'])) {
+                $client   = new Client();
+                $geocoder = new Geocoder($client);
+                
+                $geocoder->setApiKey($_ENV['GOOGLE_MAPS_API_KEY']);
+                
+                $location = $geocoder->getAddressForCoordinates($data['latitude'], $data['longitude']);
+
+                // error_log(print_r($location, true));
+
+                $explodes = explode(', Kabupaten ', $location['formatted_address']);
+                $address  = $explodes[0];
+
+                $data['location'] = $address;
             }
         }
 

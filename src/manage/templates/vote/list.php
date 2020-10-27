@@ -54,7 +54,7 @@ require __DIR__ . '/../header.php';
                         <div class="table">
                             <header class="thead">
                                 <div class="row">
-                                    <div class="col w20">
+                                    <div class="col w15">
                                         Tangal Survey
                                     </div>
                                     <div class="col w15">
@@ -66,11 +66,14 @@ require __DIR__ . '/../header.php';
                                     <div class="col w10">
                                         Pendidikan
                                     </div>
-                                    <div class="col w15">
+                                    <div class="col w10">
                                         Pekerjaan
                                     </div>
-                                    <div class="col w15">
+                                    <div class="col w10">
                                         Alamat
+                                    </div>
+                                    <div class="col w15">
+                                        Lokasi Survey
                                     </div>
                                     <div class="col w5">
                                         Surveyor
@@ -82,8 +85,9 @@ require __DIR__ . '/../header.php';
                             </header>
                             <div class="tbody">
                                 <?php foreach ($votes as $vote) : ?>
-                                    <div class="row">
-                                        <div class="col w20">
+
+                                    <div class="row has-small-text">
+                                        <div class="col w15">
                                             <?=escHtml(Carbon::parse($vote->created_at)->translatedFormat('l, j F Y'))?>
                                             <div>
                                                 <small>
@@ -100,11 +104,14 @@ require __DIR__ . '/../header.php';
                                         <div class="col w10">
                                             <?=escHtml($vote->respondent->education)?>
                                         </div>
-                                        <div class="col w15">
+                                        <div class="col w10">
                                             <?=escHtml($vote->respondent->job)?>
                                         </div>
-                                        <div class="col w15">
+                                        <div class="col w10">
                                             <?=ucwords(escHtml($vote->respondent->address))?>
+                                        </div>
+                                        <div class="col w15">
+                                            <?=ucwords(escHtml($vote->location))?>
                                         </div>
                                         <div class="col w5">
                                             <?=ucwords(escHtml($vote->surveyor->first_name))?>
@@ -120,6 +127,7 @@ require __DIR__ . '/../header.php';
                                             </div>
                                         </div>
                                     </div>
+
                                 <?php endforeach; ?>
                             </div>
                             <footer class="tfoot">

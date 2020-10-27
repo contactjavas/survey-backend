@@ -22,7 +22,8 @@
         "cocur/slugify": "^4.0",
         "mailjet/mailjet-apiv3-php": "^1.4",
         "tuupola/slim-jwt-auth": "^3.4",
-        "illuminate/database": "^7.23"
+        "illuminate/database": "^7.23",
+        "spatie/geocoder": "^3.9"
     },
     "autoload": {
         "psr-4": {
