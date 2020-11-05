@@ -22,7 +22,9 @@ class AuthController extends BaseController
             $errorResponse = json_encode($errorResponse);
 
             $response->getBody()->write($errorResponse);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response
+            ->withStatus(401)
+            ->withHeader('Content-Type', 'application/json');
         }
 
         $fields = $request->getParsedBody();
@@ -36,7 +38,9 @@ class AuthController extends BaseController
             $errorResponse = json_encode($errorResponse);
             
             $response->getBody()->write($errorResponse);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response
+            ->withStatus(401)
+            ->withHeader('Content-Type', 'application/json');
         }
 
         // Check if password is wrong.
@@ -45,7 +49,9 @@ class AuthController extends BaseController
             $errorResponse = json_encode($errorResponse);
             
             $response->getBody()->write($errorResponse);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response
+            ->withStatus(401)
+            ->withHeader('Content-Type', 'application/json');
         }
 
         unset($user->password);
