@@ -74,6 +74,7 @@ return function (App $app) {
         $group->get('/add[/]', 'RespondentController:addPage');
         $group->post('/add[/]', 'RespondentController:add');
         $group->post('/add-upload[/]', 'RespondentController:addUpload');
+        $group->post('/add-new[/]', 'RespondentController:addNew');
         $group->get('/edit/{respondent_id}[/]', 'RespondentController:editPage');
         $group->get('/edit/{respondent_id}/{saving_status}[/]', 'RespondentController:editPage');
         $group->post('/edit/{respondent_id}[/]', 'RespondentController:edit');

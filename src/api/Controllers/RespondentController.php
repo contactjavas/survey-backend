@@ -335,6 +335,77 @@ class RespondentController extends BaseController
         return $response->withHeader('Content-Type', 'application/json');
     }
     
+    public function addNew(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $fields = $request->getParsedBody();
+        error_log(print_r($fields, true));
+        
+        $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
+        $photoDir  = '';
+        $files     = $request->getUploadedFiles();
+        error_log(print_r($files, true));
+
+        if (!empty($files) && isset($files['photo'])) {
+            $photo = $files['photo'];
+    
+            if ($photo->getError() === UPLOAD_ERR_OK) {
+                $filename = $this->moveUploadedFile($uploadDir, $photo);
+                $photoDir = getBaseUrl() . '/public/uploads/respondents/' . $filename;
+            }
+        }
+        
+        $fields['photo']    = $photoDir;
+        $fields['added_by'] = $this->user()->getId();
+
+        $insertFields = [
+            'name', 'photo', 'gender_id', 'age_range', 'religion_id', 'education_id',
+            'job', 'income_range', 'active_on_social_media', 'address', 'added_by'
+        ];
+        
+        $data = [];
+
+        foreach ($insertFields as $field) {
+            if (isset($fields[$field])) {
+                $value        = is_numeric($fields[$field]) ? (int) $fields[$field] : $fields[$field];
+                $data[$field] = $value;
+            }
+        }
+
+        $respondentId = Respondent::insertGetId($data);
+
+        $data['id'] = $respondentId;
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan',
+            'data'    => $data
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
     public function edit(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);
