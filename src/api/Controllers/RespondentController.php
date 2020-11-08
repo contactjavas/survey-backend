@@ -292,9 +292,9 @@ class RespondentController extends BaseController
 
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
+        $files     = $request->getUploadedFiles();
 
         if (!empty($files) && isset($files['photo'])) {
-            $files = $request->getUploadedFiles();
             $photo = $files['photo'];
     
             if ($photo->getError() === UPLOAD_ERR_OK) {
@@ -370,9 +370,9 @@ class RespondentController extends BaseController
 
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
+        $files     = $request->getUploadedFiles();
 
         if (!empty($files) && isset($files['photo'])) {
-            $files = $request->getUploadedFiles();
             $photo = $files['photo'];
     
             if ($photo->getError() === UPLOAD_ERR_OK) {

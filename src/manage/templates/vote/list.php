@@ -111,7 +111,10 @@ require __DIR__ . '/../header.php';
                                             <?=ucwords(escHtml($vote->respondent->address))?>
                                         </div>
                                         <div class="col w15">
-                                            <?=ucwords(escHtml($vote->location))?>
+                                            <?=ucwords(escHtml($vote->location))?><br>
+                                            <a target="_blank" href="https://www.google.com/maps/place/<?=escHtmlAttr($vote->latitude)?>,<?=escHtmlAttr($vote->longitude)?>">
+                                                <?=escHtmlAttr($vote->latitude)?>,<?=escHtmlAttr($vote->longitude)?>
+                                            </a>
                                         </div>
                                         <div class="col w5">
                                             <?=ucwords(escHtml($vote->surveyor->first_name))?>
