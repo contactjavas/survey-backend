@@ -44,6 +44,7 @@ class VoteController extends BaseController
         $surveyId = (int) $args['survey_id'];
         $votes    = Vote::where('user_id', $this->user()->getId())
         ->select('id', 'created_at as createdAt', 'survey_id', 'respondent_id')
+        ->orderBy('id', 'desc')
         ->get();
 
         foreach ($votes as &$vote) {

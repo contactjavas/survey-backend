@@ -42,6 +42,7 @@ class RespondentController extends BaseController
 
         $respondents = Respondent::select('id', 'name', 'gender_id', 'age_range as ageRange', 'job', 'income_range as incomeRange', 'active_on_social_media as activeOnSocialMedia')
         ->where('added_by', $this->user()->getId())
+        ->orderBy('id', 'desc')
         ->get();
 
         $respondents->each(function ($respondent) {
@@ -358,12 +359,10 @@ class RespondentController extends BaseController
         }
 
         $fields = $request->getParsedBody();
-        error_log(print_r($fields, true));
         
         $uploadDir = __DIR__ . '/../../../public/uploads/respondents';
         $photoDir  = '';
         $files     = $request->getUploadedFiles();
-        error_log(print_r($files, true));
 
         if (!empty($files) && isset($files['photo'])) {
             $photo = $files['photo'];
@@ -393,12 +392,13 @@ class RespondentController extends BaseController
 
         $respondentId = Respondent::insertGetId($data);
 
-        $data['id'] = $respondentId;
+        $respondent = Respondent::select('id', 'name', 'gender_id', 'age_range as ageRange', 'job', 'income_range as incomeRange', 'active_on_social_media as activeOnSocialMedia')
+        ->find($respondentId);
 
         $payload = json_encode([
             'success' => true,
             'message' => 'Data berhasil disimpan',
-            'data'    => $data
+            'data'    => $respondent
         ]);
 
         $response->getBody()->write($payload);
