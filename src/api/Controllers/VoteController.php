@@ -294,6 +294,134 @@ class VoteController extends BaseController
         return $response->withHeader('Content-Type', 'application/json');
     }
     
+    public function addNew(Request $request, Response $response, array $args)
+    {
+        $this->shareRequest($request);
+
+        // General validations.
+        if ($request->getAttribute('has_errors')) {
+            $errorResponse = $this->response()->generateJsonError($request);
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $token = $this->token()->verifyToken();
+
+        // Check token
+        if (!$token) {
+            $errorResponse = $this->response()->generateJsonError('general', 'Invalid token');
+
+            $response->getBody()->write($errorResponse);
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        $fields    = $request->getParsedBody();
+        $surveyId  = (int) $args['survey_id'];
+        $questions = Question::where('survey_id', $surveyId)->get();
+
+        $answers = [];
+
+        foreach ($questions as $question) {
+            if ($question->question_type_id == 1) {
+                $answer = isset($fields['question_choice_' . $question->id]) ? $fields['question_choice_' . $question->id] : 0;
+            } elseif ($question->question_type_id == 2) {
+                $answer = isset($fields['question_choices_' . $question->id]) ? $fields['question_choices_' . $question->id] : [];
+
+                foreach ($answer as &$choiceId) {
+                    $choiceId = (int) $choiceId;
+                }
+            } else {
+                $answer = isset($fields['question_answer_' . $question->id]) ? $fields['question_answer_' . $question->id] : '';
+            }
+
+            $answers[$question->id] = $answer;
+        }
+        
+        $insertFields = ['survey_id', 'respondent_id', 'user_id', 'latitude', 'longitude', 'location'];
+
+        $data = [];
+
+        foreach ($insertFields as $field) {
+            if (isset($fields[$field])) {
+                $data[$field] = $fields[$field];
+            }
+        }
+
+        if (!isset($data['location']) || empty($data['location'])) {
+            if (isset($data['latitude']) && !empty($data['latitude']) && isset($data['longitude']) && !empty($data['longitude'])) {
+                $client   = new Client();
+                $geocoder = new Geocoder($client);
+                
+                $geocoder->setApiKey($_ENV['GOOGLE_MAPS_API_KEY']);
+                
+                $location = $geocoder->getAddressForCoordinates($data['latitude'], $data['longitude']);
+
+                // error_log(print_r($location, true));
+
+                $explodes = explode(', Kabupaten ', $location['formatted_address']);
+                $address  = $explodes[0];
+
+                $data['location'] = $address;
+            }
+        }
+
+        // These variables are not inside $fields variable.
+        $data['survey_id'] = $surveyId;
+        $data['user_id']   = $this->user()->getId();
+
+        $voteId = Vote::insertGetId($data);
+
+        foreach ($questions as $question) {
+            if ($question->question_type_id == 1) {
+                $answerModel = new Answer();
+                
+                $answerModel->vote_id     = $voteId;
+                $answerModel->question_id = $question->id;
+                $answerModel->question_choice_id = $answers[$question->id];
+
+                $answerModel->save();
+            } elseif ($question->question_type_id == 2) {
+                foreach ($answers[$question->id] as $answer) {
+                    $answerModel = new Answer();
+                
+                    $answerModel->vote_id     = $voteId;
+                    $answerModel->question_id = $question->id;
+                    $answerModel->question_choice_id = $answer;
+
+                    $answerModel->save();
+                }
+            } else {
+                $answerModel = new Answer();
+                
+                $answerModel->vote_id     = $voteId;
+                $answerModel->question_id = $question->id;
+                $answerModel->content     = $answers[$question->id];
+
+                $answerModel->save();
+            }
+        }
+
+        $vote = Vote::select('id', 'created_at as createdAt', 'survey_id', 'respondent_id')
+        ->find($voteId);
+
+        if ($vote) {
+            $vote->survey = Survey::select('id', 'title')->find($vote->survey_id);
+    
+            $vote->setHidden(['survey_id', 'surveyor', 'respondent_id']);
+        }
+
+        $payload = json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan',
+            'data'    => $vote
+        ]);
+
+        $response->getBody()->write($payload);
+
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
     public function edit(Request $request, Response $response, array $args)
     {
         $this->shareRequest($request);

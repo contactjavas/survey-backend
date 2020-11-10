@@ -51,6 +51,7 @@ return function (App $app) {
     $app->group('/api/survey/{survey_id}/votes', function (Group $group) {
         $group->get('/add[/]', 'VoteController:addPage');
         $group->post('/add[/]', 'VoteController:add');
+        $group->post('/add-new[/]', 'VoteController:addNew');
         $group->get('/edit/{vote_id}[/]', 'VoteController:editPage');
         $group->get('/edit/{vote_id}/{saving_status}[/]', 'VoteController:editPage');
         $group->post('/edit/{vote_id}[/]', 'VoteController:edit');
