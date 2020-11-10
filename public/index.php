@@ -92,6 +92,9 @@ $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function ($
     throw new HttpNotFoundException($request);
 });
 
+// Parse json, form data and xml
+$app->addBodyParsingMiddleware();
+
 // Add Routing Middleware
 $app->addRoutingMiddleware();
 
