@@ -119,11 +119,11 @@ use App\Shared\Models\QuestionChoice;
                                     <input type="hidden" name="respondent_id" id="respondent_id" value="" required>
                                     <div class="control">
                                         <input type="text" name="respondent_search" id="respondent_search" value=""
-                                        class="input use-autocomplete is-filled" placeholder="Nama / NIK Responden" autocomplete="off"
+                                        class="input use-autocomplete is-filled" placeholder="Nama Responden" autocomplete="off"
                                         data-ajax-url="<?=$baseUrl?>/api/awesomplete/respondent/search/{query}/"
                                         data-use-array-of="object" data-store-value-to="respondent_id" data-minchars="1">
                                         <hr>
-                                        <label for="respondent_search">Nama / NIK Responden</label>
+                                        <label for="respondent_search">Nama Responden</label>
                                     </div>
                                 </div>
 

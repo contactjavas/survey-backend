@@ -16,13 +16,13 @@ class AwesompleteController extends BaseController
     {
         $this->shareRequest($request);
 
-        $results = Respondent::select('id', 'name', 'nik')->get();
+        $results = Respondent::select('id', 'name')->get();
 
         $respondents = [];
 
         foreach ($results as $result) {
             array_push($respondents, [
-                'label' => $result->name . ' (' . $result->nik . ')',
+                'label' => $result->name,
                 'value' => $result->id
             ]);
         }
@@ -80,17 +80,17 @@ class AwesompleteController extends BaseController
         $this->shareRequest($request);
 
         $query  = $args['query'];
-        $column = is_numeric($query) ? 'nik' : 'name';
+        $column = 'name';
 
         $results = Respondent::where($column, 'LIKE', '%' . $query . '%')
-        ->select('id', 'name', 'nik')
+        ->select('id', 'name')
         ->get();
 
         $respondents = [];
 
         foreach ($results as $result) {
             array_push($respondents, [
-                'label' => $result->name . ' (' . $result->nik . ')',
+                'label' => $result->name,
                 'value' => $result->id
             ]);
         }
